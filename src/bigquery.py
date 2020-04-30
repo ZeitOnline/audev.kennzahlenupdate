@@ -42,7 +42,7 @@ def upload_data(df, table_id):
         client.load_table_from_dataframe(df, table_id, job_config=job_config).result()
         logging.info(str(datetime.now()) + ' data uploaded to ' + table_id + '...')
     else:
-        logging.info(str(datetime.now()) + ' no data to upload ' + table_id)
+        logging.info(str(datetime.now()) + ' no data to upload to ' + table_id)
 
 
 
