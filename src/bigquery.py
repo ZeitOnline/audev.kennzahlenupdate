@@ -49,7 +49,7 @@ def upload_data(df, table_id):
 
 def delete_recent_ivw(client):
     """
-    Note: before upload, last 7 days of IVW
+    Note: before upload, last 6 days of IVW
     data are deleted, to avoid duplicates. This is necessary in order to update recent days.
     :return:
     """
@@ -61,12 +61,12 @@ def delete_recent_ivw(client):
     except NotFound:
         table_exists = False
 
-    # if table exist, delete last 7 entries
+    # if table exist, delete last 6 entries
     if table_exists:
         sql = """ DELETE
                   FROM kennzahlenupdate.ivw_visits
                   ORDER BY date desc
-                  LIMIT 7
+                  LIMIT 6
               """
         client.query(sql)
     logging.info(str(datetime.now()) + ' last seven days deleted in kennzahlenupdate.ivw_visits..')
