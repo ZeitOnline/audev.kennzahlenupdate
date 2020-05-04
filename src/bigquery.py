@@ -89,7 +89,7 @@ def check_date(client, table_id):
 
     # if table exist, get first ordered row in order to get max date
     if table_exists:
-        sql = "SELECT MAX(date) from " + table_id
+        sql = "SELECT MAX(date) as date FROM " + table_id
         last_date = client.query(sql).to_dataframe()
         last_date = last_date.date.values[0]
         return last_date
