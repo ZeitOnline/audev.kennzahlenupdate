@@ -17,7 +17,7 @@ def f3_call(body):
     :return: JSON of data
     """
     # get cred
-    config = get_credentials('credentials_wt')
+    config = get_credentials('credentials_reshin')
 
     # get token
     token = requests.post(
