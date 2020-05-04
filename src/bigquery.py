@@ -8,7 +8,7 @@ data are deleted, to avoid duplicates. This is necessary in order to update rece
 import os
 import google.cloud.bigquery as gcbq
 from google.cloud.exceptions import NotFound
-from datetime import datetime
+from datetime import datetime, date, timedelta
 import logging
 
 # setup authentication for bigquery via JSON key file
@@ -63,11 +63,8 @@ def delete_recent_ivw(client):
 
     # if table exist, delete last 6 entries
     if table_exists:
-        sql = """ DELETE
-                  FROM kennzahlenupdate.ivw_visits
-                  ORDER BY date desc
-                  LIMIT 6
-              """
+        today_minus_six = str(date.today() - timedelta(days=6))
+        sql = "DELETE FROM kennzahlenupdate.ivw_visits WHERE date >= '" + today_minus_six + "'"
         client.query(sql)
     logging.info(str(datetime.now()) + ' last six days deleted in kennzahlenupdate.ivw_visits..')
 
