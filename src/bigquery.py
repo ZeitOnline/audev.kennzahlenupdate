@@ -69,7 +69,7 @@ def delete_recent_ivw(client):
                   LIMIT 6
               """
         client.query(sql)
-    logging.info(str(datetime.now()) + ' last seven days deleted in kennzahlenupdate.ivw_visits..')
+    logging.info(str(datetime.now()) + ' last six days deleted in kennzahlenupdate.ivw_visits..')
 
 
 def check_date(client, table_id):
@@ -89,7 +89,7 @@ def check_date(client, table_id):
 
     # if table exist, get first ordered row in order to get max date
     if table_exists:
-        sql = "SELECT date from " + table_id + " ORDER BY date desc LIMIT 1"
+        sql = "SELECT MAX(date) from " + table_id
         last_date = client.query(sql).to_dataframe()
         last_date = last_date.date.values[0]
         return last_date
