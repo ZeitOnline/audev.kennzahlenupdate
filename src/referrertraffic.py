@@ -51,6 +51,6 @@ def get_data(date_from=api.get_datetime_yesterday(),
                  "flipboard", "firefox_rec"]
     df.columns = col_names
     df.date = pd.to_datetime(df.date)
-    df.date = str(df.date)
+    df.date = df.date.astype(str)
 
     return df
