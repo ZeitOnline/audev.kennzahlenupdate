@@ -61,10 +61,10 @@ def delete_recent_ivw(client):
     except NotFound:
         table_exists = False
 
-    # if table exist, delete last 6 entries
+    # if table exist, delete last 6 entries; last 6 entries are yesterday-6, so today-7
     if table_exists:
-        today_minus_six = str(date.today() - timedelta(days=6))
-        sql = "DELETE FROM kennzahlenupdate.ivw_visits WHERE date >= '" + today_minus_six + "'"
+        last_six_days = str(date.today() - timedelta(days=7))
+        sql = "DELETE FROM kennzahlenupdate.ivw_visits WHERE date >= '" + last_six_days + "'"
         client.query(sql)
     logging.info(str(datetime.now()) + ' last six days deleted in kennzahlenupdate.ivw_visits..')
 
