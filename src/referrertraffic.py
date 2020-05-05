@@ -50,7 +50,7 @@ def get_data(date_from=api.get_datetime_yesterday(),
     col_names = ["date", "google_organisch", "facebook", "push", "google_news", "sonst_referrer",
                  "flipboard", "firefox_rec"]
     df.columns = col_names
-    df.date = pd.to_datetime(df.date)
+    df.date = pd.to_datetime(df.date, format="%d.%m.%Y")
     df.date = df.date.astype(str)
 
     return df
