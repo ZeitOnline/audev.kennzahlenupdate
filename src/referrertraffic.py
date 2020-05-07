@@ -11,10 +11,10 @@ import pandas as pd
 def get_data(date_from=api.get_datetime_yesterday(),
              date_to=api.get_datetime_yesterday()):
     """
-
+    function to build anlysisConfig and make api request
     :param date_from:
     :param date_to:
-    :return: dataframe with
+    :return: dataframe with relevant information
     """
     # build analysisConfig
     analysisConfig = {

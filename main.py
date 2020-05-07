@@ -4,7 +4,7 @@ Date:       29.04.20
 
 This module does...
 """
-from src import ivw, referrertraffic, bigquery
+from src import ivw, referrertraffic, usercentric, bigquery
 import logging
 
 # initialize log file
@@ -18,4 +18,8 @@ bigquery.upload_data(df, 'kennzahlenupdate.ivw_visits')
 # handle referrertraffic data
 df = referrertraffic.get_data()
 bigquery.upload_data(df, 'kennzahlenupdate.referrertraffic_visits')
+
+# handle usercentric data
+df = usercentric.get_data()
+bigquery.upload_data(df, 'kennzahlenupdate.usercentric')
 
