@@ -51,7 +51,6 @@ def get_data(date_from=api.get_datetime_yesterday(),
                  "flipboard", "firefox_rec"]
     df.columns = col_names
     df.date = pd.to_datetime(df.date, format="%d.%m.%Y")
-    #df.date = df.date.astype(str)
 
     convert_cols = df.columns.drop('date')
     df[convert_cols] = df[convert_cols].apply(pd.to_numeric, errors='coerce')

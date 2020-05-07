@@ -5,7 +5,6 @@ Date:       29.04.20
 This module contains all functions to import IVW data from reshin dashboard
 """
 from src import api
-from datetime import datetime
 import pandas as pd
 
 def get_data():
@@ -71,6 +70,10 @@ def parse_data(df_advanced, df_lifeview):
                     'zett_android': df_lifeview["3"]["buckets"]["ZE.TT Android App"]["1"]["value"],
                     'zett_ios': df_lifeview["3"]["buckets"]["ZE.TT iOS App"]["1"]["value"]},
                    ignore_index=True)
+
+    # convert date to datetime object
+    df.date = pd.to_datetime(df.date, format="%Y-%m-%d")
+
     return df
 
 
