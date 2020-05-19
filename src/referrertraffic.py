@@ -25,19 +25,33 @@ def get_data(date_from=api.get_datetime_yesterday(),
             "title": "Tage"
         }],
         "metrics": [{
-            "title": "Visits Google Organisch"
-        }, {
             "title": "Visits Facebook (inkl. IAs)"
         }, {
-            "title": "Visits Push"
-        }, {
-            "title": "Visits Google News"
-        }, {
-            "title": "Visits sonstige Referrer (all)"
+            "title": "Visits Firefox Recommendations"
         }, {
             "title": "Visits Flipboard"
         }, {
-            "title": "Visits Firefox Recommendations"
+            "title": "Visits Google News"
+        }, {
+            "title": "Visits Google Organisch"
+        }, {
+            "title": "Visits Push"
+        }, {
+            "title": "Visits sonstige Referrer (all)"
+        }, {
+            "title": "Einstiege Facebook (inkl. IAs)"
+        }, {
+            "title": "Einstiege Firefox Recommendations"
+        }, {
+            "title": "Einstiege Flipboard"
+        }, {
+            "title": "Einstiege Google News"
+        }, {
+            "title": "Einstiege Google Organisch"
+        }, {
+            "title": "Einstiege Push"
+        }, {
+            "title": "Einstiege sonstige Referrer (all)"
         }
         ]}
 
@@ -47,8 +61,11 @@ def get_data(date_from=api.get_datetime_yesterday(),
     # parse data
     data = data["result"]["analysisData"]
     df = pd.DataFrame(data)
-    col_names = ["date", "google_organisch", "facebook", "push", "google_news", "sonst_referrer",
-                 "flipboard", "firefox_rec"]
+    col_names = ["date", "visits_facebook", "visits_firefox", "visits_flipboard",
+                 "visits_google_news", "visits_google_org", "visits_push", "visits_sonstige",
+                 "einstiege_facebook", "einstiege_firefox", "einstiege_flipboard",
+                 "einstiege_google_news", "einstiege_google_org", "einstiege_push",
+                 "einstiege_sonstige"]
     df.columns = col_names
     df.date = pd.to_datetime(df.date, format="%d.%m.%Y")
 
