@@ -21,5 +21,5 @@ bigquery.upload_data(df, 'kennzahlenupdate.referrertraffic_visits')
 
 # handle usercentric data
 df = usercentric.get_data()
-bigquery.upload_data(df, 'kennzahlenupdate.usercentric')
+bigquery.upload_data(df, 'kennzahlenupdate.usercentric_ext')
 
