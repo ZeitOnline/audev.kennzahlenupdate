@@ -4,22 +4,27 @@ Date:       29.04.20
 
 This module does...
 """
-from src import ivw, referrertraffic, usercentric, bigquery
+from src import ivw, referrertraffic, usercentric, bigquery, error
 import logging
+import traceback
 
 # initialize log file
 logging.basicConfig(filename="kennzahlenupdate.log", level=logging.INFO)
 
-# handle IVW data
-df_advanced, df_lifeview = ivw.get_data()
-df = ivw.parse_data(df_advanced, df_lifeview)
-bigquery.upload_data(df, 'kennzahlenupdate.ivw_visits')
+try:
+    # handle IVW data
+    df_advanced, df_lifeview = ivw.get_data()
+    df = ivw.parse_data(df_advanced, df_lifeview)
+    bigquery.upload_data(df, 'kennzahlenupdate.ivw_visits')
 
-# handle referrertraffic data
-df = referrertraffic.get_data()
-bigquery.upload_data(df, 'kennzahlenupdate.referrertraffic_visits')
+    # handle referrertraffic data
+    df = referrertraffic.get_data()
+    bigquery.upload_data(df, 'kennzahlenupdate.referrertraffic')
 
-# handle usercentric data
-df = usercentric.get_data()
-bigquery.upload_data(df, 'kennzahlenupdate.usercentric_ext')
+    # handle usercentric data
+    df = usercentric.get_data()
+    bigquery.upload_data(df, 'kennzahlenupdate.usercentric')
+except Exception:
+    error.send_error_slack(traceback.format_exc())
+
 

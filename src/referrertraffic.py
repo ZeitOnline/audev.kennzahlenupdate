@@ -6,6 +6,8 @@ This module contains all functions getting and processing referrertraffic from w
 """
 from src import api
 import pandas as pd
+from datetime import datetime
+import logging
 
 
 def get_data(date_from=api.get_datetime_yesterday(),
@@ -71,5 +73,7 @@ def get_data(date_from=api.get_datetime_yesterday(),
 
     convert_cols = df.columns.drop('date')
     df[convert_cols] = df[convert_cols].apply(pd.to_numeric, errors='coerce')
+
+    logging.info(str(datetime.now()) + ' referrertraffic imported from webtrekk')
 
     return df
