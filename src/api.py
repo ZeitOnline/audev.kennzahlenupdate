@@ -230,17 +230,24 @@ def wt_call(body):
     :param body:
     :return: api response as dictionary
     """
-    # make request
-    data = requests.post(
-        url='https://report2.webtrekk.de/cgi-bin/wt/JSONRPC.cgi',
-        data=body,
-        headers=
-        {
-            'content_type': 'application/json-rpc',
-            'encode': 'json'
-        }
-    )
-    data = data.json()
+    # check if api call was successful
+    # in case it was not try to call again 9 times then throw exception
+    # use for loop instead of while loop to avoid infinite loop trying to call api
+    for i in range(0,10):
+        # make request
+        data = requests.post(
+            url='https://report2.webtrekk.de/cgi-bin/wt/JSONRPC.cgi',
+            data=body,
+            headers=
+            {
+                'content_type': 'application/json-rpc',
+                'encode': 'json'
+            }
+        )
+        data = data.json()
+
+        if 'result' in data.keys():
+            break
 
     return data
 
