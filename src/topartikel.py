@@ -2,10 +2,8 @@
 Created by: humberg
 Date:       03.06.20
 
-This module contains all necessary functions to import topartikel in five categories:
+This module contains all necessary functions to import topartikel in three categories:
 - meistgelesen (topartikel)
-- meistgelesen abopflichtig (topartikel_rot)
-- meistgelesen registrierungspflichtig (topartikel_grau)
 - meisten probeabos (topartikel_best)
 - meisten registrierungen (topartikel_reg)
 """
@@ -22,7 +20,7 @@ def get_data_top(date_from=api.get_datetime_yesterday(),
                  date_to=api.get_datetime_yesterday()):
     """
     function to build anlysisConfig and make api request; function retrieves top five most read
-    articles fro  yesterday
+    articles from yesterday
     :param date_from:
     :param date_to:
     :return: dataframe with top five most read articles, their visits and their referrer
@@ -123,3 +121,66 @@ def get_title_from_xml(url):
     title = soup.body.title.text
     return title
 
+
+def get_data_top_best(date_from=api.get_datetime_yesterday(),
+                      date_to=api.get_datetime_yesterday()):
+    """
+    function to build anlysisConfig and make api request; function retrieves top five abo article
+    with most orders
+    :param date_from:
+    :param date_to:
+    :return: dataframe with top five abo articles with most orders and their PIs
+    """
+    # build analysisConfig
+    analysisConfig = {
+        "hideFooters": [1],
+        "startTime": date_from,
+        "stopTime": date_to,
+        "analysisFilter": {
+            "filterRules": [{
+                "objectTitle": "Wall - Status",
+                "comparator": "=",
+                "filter": "paid"
+            }]
+        },
+        "analysisObjects": [{
+            "title": "Seiten",
+            "rowLimit": 5
+        }],
+        "metrics": [{
+            "title": "Anzahl Bestellungen mit Seitenbezug",
+            "sortOrder": "desc"
+        }, {
+            "title": "Page Impressions"
+        }
+        ]}
+
+    # request data
+    data = api.wt_get_data(analysisConfig)
+
+    # parse data
+    data = data["result"]["analysisData"]
+    df = pd.DataFrame(data)
+    col_names = ["url", "bestellungen", "page_impressions"]
+    df.columns = col_names
+
+    # create date and rank
+    df["date"] = pd.to_datetime(datetime.strftime(datetime.now(), '%Y-%m-%d'))
+    df["rank"] = range(1, 1+len(df))
+
+    # use only url of article and get title
+    df.url = df.url.str.partition('|')[2]
+    df["title"] = df.url.apply(lambda x: get_title_from_xml(x))
+
+    # rearrange order of colummns
+    cols = df.columns.tolist()
+    cols = cols[-3:] + cols[:-3]
+    df = df[cols]
+
+    # convert to numeric columns
+    convert_cols = df.columns.drop(['date', 'rank', 'title', 'url'])
+    df[convert_cols] = df[convert_cols].apply(pd.to_numeric, errors='coerce')
+
+    logging.info(str(datetime.now()) + ' topartikel bestellungen imported from webtrekk')
+
+    return df
