@@ -161,7 +161,7 @@ def get_data_top_best(date_from=api.get_datetime_yesterday(),
     # parse data
     data = data["result"]["analysisData"]
     df = pd.DataFrame(data)
-    col_names = ["url", "bestellungen", "page_impressions"]
+    col_names = ["url", "bestellungen", "page_impressions_schranke"]
     df.columns = col_names
 
     # create date and rank
@@ -184,3 +184,139 @@ def get_data_top_best(date_from=api.get_datetime_yesterday(),
     logging.info(str(datetime.now()) + ' topartikel bestellungen imported from webtrekk')
 
     return df
+
+
+def get_data_top_reg(date_from=api.get_datetime_yesterday(),
+                     date_to=api.get_datetime_yesterday()):
+    """
+    function to build anlysisConfig and make api request; function retrieves top five articles,
+    which make the most registrations
+    :param date_from:
+    :param date_to:
+    :return: dataframe with top five regigster articles with most registrations and their PIs
+    """
+    # build analysisConfig
+    analysisConfig = {
+        "hideFooters": [1],
+        "startTime": date_from,
+        "stopTime": date_to,
+        "analysisObjects": [{
+            "title": "Registrierung SSO",
+            "rowLimit": 5
+        }],
+        "metrics": [{
+            "title": "Anzahl Registrierungen Schranke",
+            "sortOrder": "desc"
+        }
+        ]}
+
+    # request data
+    data = api.wt_get_data(analysisConfig)
+
+    # parse data
+    data = data["result"]["analysisData"]
+    df = pd.DataFrame(data)
+    col_names = ["url", "registrierungen"]
+    df.columns = col_names
+
+    # get rid of https in url
+    df.url = df.url.str.partition('://')[2]
+
+    # get PIs of most top five register article (all at once)
+    df_pis = get_pis_of_url(df.url)
+
+    # join registrierungen and their PIs
+    df = df.join(df_pis.set_index('url'), on="url", how="left")
+
+    # create date and rank
+    df["date"] = pd.to_datetime(datetime.strftime(datetime.now(), '%Y-%m-%d'))
+    df["rank"] = range(1, 1+len(df))
+
+    # get title
+    df["title"] = df.url.apply(lambda x: get_title_from_xml(x))
+
+    # rearrange order of colummns
+    cols = df.columns.tolist()
+    cols = cols[-3:] + cols[:-3]
+    df = df[cols]
+
+    # convert to numeric columns
+    convert_cols = df.columns.drop(['date', 'rank', 'title', 'url'])
+    df[convert_cols] = df[convert_cols].apply(pd.to_numeric, errors='coerce')
+
+    logging.info(str(datetime.now()) + ' topartikel registrierungen imported from webtrekk')
+
+    return df
+
+
+def get_pis_of_url(url,
+                   date_from=api.get_datetime_yesterday(),
+                   date_to=api.get_datetime_yesterday()):
+    """
+    this function retrieves the PIs of a given url on a specific day
+    :param url: vector of five urls in order to only make one api call
+    :param date_from:
+    :param date_to:
+    :return: the PIs for all five given urls as a dataframe
+    """
+    # build analysisConfig
+    analysisConfig = {
+        "hideFooters": [1],
+        "startTime": date_from,
+        "stopTime": date_to,
+        "analysisObjects": [{
+            "title": "Seiten",
+            "rowLimit": 5
+        }],
+        "analysisFilter": {
+            "filterRules": [{
+                "objectTitle": "Wall - Status",
+                "comparator": "=",
+                "filter": "register"
+            }, {
+                "link": "and",
+                "objectTitle": "Seiten",
+                "comparator": "=",
+                "filter": "*"+url[0]+"*"
+            }, {
+                "link": "or",
+                "objectTitle": "Seiten",
+                "comparator": "=",
+                "filter": "*"+url[1]+"*"
+            }, {
+                "link": "or",
+                "objectTitle": "Seiten",
+                "comparator": "=",
+                "filter": "*"+url[2]+"*"
+            }, {
+                "link": "or",
+                "objectTitle": "Seiten",
+                "comparator": "=",
+                "filter": "*"+url[3]+"*"
+            }, {
+                "link": "or",
+                "objectTitle": "Seiten",
+                "comparator": "=",
+                "filter": "*"+url[4]+"*"
+            }
+            ]
+        },
+        "metrics": [{
+            "title": "Page Impressions",
+            "sortOrder": "desc"
+        }
+        ]}
+
+    # request data
+    data = api.wt_get_data(analysisConfig)
+
+    # parse data
+    data = data["result"]["analysisData"]
+    df_pis = pd.DataFrame(data)
+    col_names = ["url", "pis"]
+    df_pis.columns = col_names
+
+    # display only url instead of content id
+    df_pis.url = df_pis.url.str.partition('|')[2]
+
+    return df_pis
