@@ -13,7 +13,7 @@ lxml==4.5.1
 numpy==1.18.3
 pandas==1.0.3
 protobuf==3.11.3
-pyarrow==0.17.0
+pyarrow==0.17.1
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 python-dateutil==2.8.1
@@ -23,4 +23,5 @@ rsa==4.0
 six==1.14.0
 soupsieve==2.0.1
 urllib3==1.25.9
+
 

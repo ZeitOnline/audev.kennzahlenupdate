@@ -4,7 +4,7 @@ Date:       29.04.20
 
 This module does...
 """
-from src import ivw, referrertraffic, usercentric, adimpressions, bigquery, error
+from src import ivw, referrertraffic, usercentric, adimpressions, bigquery, error, topartikel
 import logging
 import traceback
 
@@ -37,6 +37,27 @@ except Exception:
 try:
     df = adimpressions.get_data()
     bigquery.upload_data(df, 'kennzahlenupdate.adimpressions')
+except Exception:
+    error.send_error_slack(traceback.format_exc())
+
+# handle topartikel (reichweite) data
+try:
+    df = topartikel.get_data_top()
+    bigquery.upload_data(df, 'kennzahlenupdate.topartikel')
+except Exception:
+    error.send_error_slack(traceback.format_exc())
+
+# handle topartikel bestellungen data
+try:
+    df = topartikel.get_data_top_best()
+    bigquery.upload_data(df, 'kennzahlenupdate.topartikel_best')
+except Exception:
+    error.send_error_slack(traceback.format_exc())
+
+# handle topartikel registrierungen data
+try:
+    df = topartikel.get_data_top_reg()
+    bigquery.upload_data(df, 'kennzahlenupdate.topartikel_reg')
 except Exception:
     error.send_error_slack(traceback.format_exc())
 
