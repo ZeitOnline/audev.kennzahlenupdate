@@ -10,7 +10,7 @@ This module contains all necessary functions to import topartikel in three categ
 
 from src import api
 import pandas as pd
-from datetime import datetime
+from datetime import datetime, timedelta
 import logging
 import requests
 from bs4 import BeautifulSoup
@@ -87,8 +87,8 @@ def get_data_top(date_from=api.get_datetime_yesterday(),
                  "visits_socialife", "visits_upday", "visits_twitter"]
     df.columns = col_names
 
-    # create date and rank
-    df["date"] = pd.to_datetime(datetime.strftime(datetime.now(), '%Y-%m-%d'))
+    # create date (yesterday) and rank
+    df["date"] = pd.to_datetime(datetime.strftime(datetime.now() - timedelta(1), '%Y-%m-%d'))
     df["rank"] = range(1, 1+len(df))
 
     # use only url of article and get title
@@ -165,7 +165,7 @@ def get_data_top_best(date_from=api.get_datetime_yesterday(),
     df.columns = col_names
 
     # create date and rank
-    df["date"] = pd.to_datetime(datetime.strftime(datetime.now(), '%Y-%m-%d'))
+    df["date"] = pd.to_datetime(datetime.strftime(datetime.now() - timedelta(1), '%Y-%m-%d'))
     df["rank"] = range(1, 1+len(df))
 
     # use only url of article and get title
@@ -229,7 +229,7 @@ def get_data_top_reg(date_from=api.get_datetime_yesterday(),
     df = df.join(df_pis.set_index('url'), on="url", how="left")
 
     # create date and rank
-    df["date"] = pd.to_datetime(datetime.strftime(datetime.now(), '%Y-%m-%d'))
+    df["date"] = pd.to_datetime(datetime.strftime(datetime.now() - timedelta(1), '%Y-%m-%d'))
     df["rank"] = range(1, 1+len(df))
 
     # get title
