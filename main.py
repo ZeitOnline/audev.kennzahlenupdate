@@ -50,14 +50,14 @@ except Exception:
 # handle topartikel bestellungen data
 try:
     df = topartikel.get_data_top_best()
-    bigquery.upload_data(df, 'kennzahlenupdate.topartikel_best')
+    bigquery.upload_data(df, 'kennzahlenupdate.topartikel_bestellungen')
 except Exception:
     error.send_error_slack(traceback.format_exc())
 
 # handle topartikel registrierungen data
 try:
     df = topartikel.get_data_top_reg()
-    bigquery.upload_data(df, 'kennzahlenupdate.topartikel_reg')
+    bigquery.upload_data(df, 'kennzahlenupdate.topartikel_registrierungen')
 except Exception:
     error.send_error_slack(traceback.format_exc())
 

@@ -161,7 +161,7 @@ def get_data_top_best(date_from=api.get_datetime_yesterday(),
     # parse data
     data = data["result"]["analysisData"]
     df = pd.DataFrame(data)
-    col_names = ["url", "bestellungen", "page_impressions_schranke"]
+    col_names = ["url", "bestellungen", "pis_schranke"]
     df.columns = col_names
 
     # create date and rank
@@ -313,7 +313,7 @@ def get_pis_of_url(url,
     # parse data
     data = data["result"]["analysisData"]
     df_pis = pd.DataFrame(data)
-    col_names = ["url", "pis"]
+    col_names = ["url", "pis_schranke"]
     df_pis.columns = col_names
 
     # display only url instead of content id

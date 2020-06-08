@@ -10,10 +10,11 @@ import google.cloud.bigquery as gcbq
 from google.cloud.exceptions import NotFound
 from datetime import datetime, date, timedelta
 import logging
+from src import api
+import pandas as pd
 
 # setup authentication for bigquery via JSON key file
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "audev-bigquery-default.json"
-
 
 
 def upload_data(df, table_id):
@@ -76,7 +77,6 @@ def check_date(client, table_id):
     :param table_id: which table_id to check
     :return: date of last entry
     """
-
     # check if table exists
     try:
         client.get_table(table_id)
@@ -92,3 +92,61 @@ def check_date(client, table_id):
         return last_date
     else:
         return '1970-01-01'
+
+
+def get_tables_list(dataset_id):
+    """
+    this function lists all tables for given dataset
+    :param dataset_id: id of dataset
+    :return: list with table names
+    """
+    # initialize client
+    client = gcbq.Client()
+
+    # get list of tables
+    tables = client.list_tables(dataset_id)
+    lst_tables = []
+    for table in tables:
+        lst_tables = lst_tables + [table.dataset_id + "." + table.table_id]
+
+    return lst_tables
+
+
+def get_missing_dates(table, min_date):
+    """
+    get missing dates of table (check distinct dates because of multiple entries in topartikel)
+    :param table: dataset_id.table_idn as string
+    :param min_date: minimum date from which on distinct dates should be checked (until today)
+                    format is 'YYYY-MM-DD'
+    :return: list of missing dates for specific table
+    """
+    # initialize client
+    client = gcbq.Client()
+
+    # check if table exists
+    try:
+        client.get_table(table)
+        table_exists = True
+    except NotFound:
+        table_exists = False
+
+    # if table exist, get distinct dates and check which dates are missing from min_date until now
+    if table_exists:
+
+        # get distinct dates
+        sql = "SELECT DISTINCT(date) FROM " + table + " ORDER BY date asc"
+        df = client.query(sql).to_dataframe()
+        df.date = df.date.dt.strftime("%Y-%m-%d")
+        dates = pd.date_range(start=min_date, end=api.get_datetime_yesterday())
+        dates = dates.strftime("%Y-%m-%d").tolist()
+
+        # remove existing dates
+        for date in df.date:
+            dates.remove(date)
+
+        logging.info(str(datetime.now()) + ' missing dates in ' + table)
+
+        # return missing dates
+        return dates
+    else:
+        logging.info(str(datetime.now()) + ' no missing dates in ' + table)
