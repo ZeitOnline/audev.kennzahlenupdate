@@ -87,8 +87,8 @@ def get_data_top(date_from=api.get_datetime_yesterday(),
                  "visits_socialife", "visits_upday", "visits_twitter"]
     df.columns = col_names
 
-    # create date (yesterday) and rank
-    df["date"] = pd.to_datetime(datetime.strftime(datetime.now() - timedelta(1), '%Y-%m-%d'))
+    # create date and rank
+    df["date"] = pd.to_datetime(date_from)
     df["rank"] = range(1, 1+len(df))
 
     # use only url of article and get title
@@ -104,7 +104,7 @@ def get_data_top(date_from=api.get_datetime_yesterday(),
     convert_cols = df.columns.drop(['date', 'rank', 'title', 'url'])
     df[convert_cols] = df[convert_cols].apply(pd.to_numeric, errors='coerce')
 
-    logging.info(str(datetime.now()) + ' topartikel imported from webtrekk')
+    logging.info(str(datetime.now()) + ' topartikel imported from webtrekk for ' + date_from)
 
     return df
 
@@ -165,7 +165,7 @@ def get_data_top_best(date_from=api.get_datetime_yesterday(),
     df.columns = col_names
 
     # create date and rank
-    df["date"] = pd.to_datetime(datetime.strftime(datetime.now() - timedelta(1), '%Y-%m-%d'))
+    df["date"] = pd.to_datetime(date_from)
     df["rank"] = range(1, 1+len(df))
 
     # use only url of article and get title
@@ -181,7 +181,8 @@ def get_data_top_best(date_from=api.get_datetime_yesterday(),
     convert_cols = df.columns.drop(['date', 'rank', 'title', 'url'])
     df[convert_cols] = df[convert_cols].apply(pd.to_numeric, errors='coerce')
 
-    logging.info(str(datetime.now()) + ' topartikel bestellungen imported from webtrekk')
+    logging.info(str(datetime.now()) + ' topartikel bestellungen imported from webtrekk for '
+                 + date_from)
 
     return df
 
@@ -229,7 +230,7 @@ def get_data_top_reg(date_from=api.get_datetime_yesterday(),
     df = df.join(df_pis.set_index('url'), on="url", how="left")
 
     # create date and rank
-    df["date"] = pd.to_datetime(datetime.strftime(datetime.now() - timedelta(1), '%Y-%m-%d'))
+    df["date"] = pd.to_datetime(date_from)
     df["rank"] = range(1, 1+len(df))
 
     # get title
@@ -244,7 +245,8 @@ def get_data_top_reg(date_from=api.get_datetime_yesterday(),
     convert_cols = df.columns.drop(['date', 'rank', 'title', 'url'])
     df[convert_cols] = df[convert_cols].apply(pd.to_numeric, errors='coerce')
 
-    logging.info(str(datetime.now()) + ' topartikel registrierungen imported from webtrekk')
+    logging.info(str(datetime.now()) + ' topartikel registrierungen imported from webtrekk for '
+                 + date_from)
 
     return df
 

@@ -140,13 +140,22 @@ def get_missing_dates(table, min_date):
         dates = pd.date_range(start=min_date, end=api.get_datetime_yesterday())
         dates = dates.strftime("%Y-%m-%d").tolist()
 
+        # make sure to check only entries which are greater than min_date
+        df_check = df[df["date"] >= min_date]
+
         # remove existing dates
-        for date in df.date:
+        for date in df_check.date:
             dates.remove(date)
 
-        logging.info(str(datetime.now()) + ' missing dates in ' + table)
+        # log if there are missing dates
+        if len(dates) == 0:
+            logging.info(
+                str(datetime.now()) + ' ########## no missing dates in ' + table + ' ###########')
+        else:
+            logging.info(
+                str(datetime.now()) + ' ########## missing dates in ' + table + ' ###########')
 
         # return missing dates
         return dates
     else:
-        logging.info(str(datetime.now()) + ' no missing dates in ' + table)
+        logging.info(str(datetime.now()) + table + " doesn't exist")

@@ -48,17 +48,25 @@ def f3_call(body):
     return response_json
 
 
-def f3_body(aggr, horizon):
+def f3_body(aggr, horizon,
+            date_from=None, date_to=None):
     """
-    wrapper function to call f3 api and get data
+    wrapper function to call f3 api and get data; use dates_from and date_to if given
     :param aggr: aggr ("hour" or "day");
     :param horizon: horizon of days to be called
+    :param: date_from: (optional)
+    :param: date_to: (optional)
     :return: json with response of specific call
     """
+    # define time intervall; if date_from and date_to are given, use them
+    if date_from == None:
+        date_from = "now/d-" + str(horizon) + "d"
+        date_to = "now/d-1d"
+    else:
+        date_from = datetime.strptime(date_from, "%Y-%m-%d").timestamp() * 1000
+        date_to = datetime.strptime(date_to, "%Y-%m-%d").replace(hour=23, minute=59).\
+                      timestamp() * 1000
 
-    # define time intervall
-    date_from = "now/d-"+str(horizon)+"d"
-    date_to = "now/d-1d"
     # define body
     data = {
         "aggs": {
