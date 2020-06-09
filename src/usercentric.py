@@ -136,6 +136,6 @@ def get_data(date_from=api.get_datetime_yesterday(),
     convert_cols = df.columns.drop('date')
     df[convert_cols] = df[convert_cols].apply(pd.to_numeric, errors='coerce')
 
-    logging.info(str(datetime.now()) + ' usercentric imported from webtrekk')
+    logging.info(str(datetime.now()) + ' usercentric imported from webtrekk for ', date_from)
 
     return df
