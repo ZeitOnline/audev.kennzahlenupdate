@@ -22,8 +22,6 @@ else:
 # get list of all tables in bigquery dataset 'kennzahlenupdate'
 tables = bigquery.get_tables_list("kennzahlenupdate")
 
-table = "kennzahlenupdate.ivw_visits"
-
 # loop through all tables
 for table in tables:
 
