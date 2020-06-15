@@ -53,7 +53,7 @@ def get_data_top(date_from=api.get_datetime_yesterday(),
         }, {
             "title": "Visits Chrome Content Suggestions"
         }, {
-            "title": "Visits Direct iOS"
+            "title": "Visits Apple News (geschätzt)"                # vorher Visits Direct iOS
         }, {
             "title": "Visits Facebook (inkl. IAs)"
         }, {
