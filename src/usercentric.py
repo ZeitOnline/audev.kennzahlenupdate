@@ -109,6 +109,8 @@ def get_data(date_from=api.get_datetime_yesterday(),
             "title": "Anzahl Registrierungen Schranke"
         }, {
             "title": "Anzahl Login SSO"
+        }, {
+            "title": "Anzahl Digitalabonnenten"
         }
         ]}
 
@@ -129,7 +131,7 @@ def get_data(date_from=api.get_datetime_yesterday(),
                  "visits_bestellstrecke", "pis", "pis_schranke_register", "pis_schranke_paid",
                  "pis_pur", "best", "best_zplus_red_marketing", "best_zplus_footer",
                  "best_zplus_gesamt", "best_pur_only", "best_pur_upgrade", "best_pur_kombi",
-                 "reg_sso", "reg_schranke", "login_sso"]
+                 "reg_sso", "reg_schranke", "login_sso", "sum_abonnenten"]
     df.columns = col_names
     df.date = pd.to_datetime(df.date, format="%d.%m.%Y")
 
