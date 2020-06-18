@@ -5,7 +5,8 @@ Date:       29.04.20
 This module is the main module. It calls all necessary functions in order to get the necessary data
 and upload it to bigquery
 """
-from src import ivw, referrertraffic, usercentric, adimpressions, bigquery, error, topartikel
+from src import ivw, referrertraffic, usercentric, adimpressions, bigquery, error, topartikel, \
+    entryservice
 import logging
 import traceback
 
@@ -59,5 +60,19 @@ except Exception:
 try:
     df = topartikel.get_data_top_reg()
     bigquery.upload_data(df, 'kennzahlenupdate.topartikel_registrierungen')
+except Exception:
+    error.send_error_slack(traceback.format_exc())
+
+# handle registrierungen entry service data
+try:
+    df = entryservice.get_data_reg()
+    bigquery.upload_data(df, 'kennzahlenupdate.entryservice_registrierungen')
+except Exception:
+    error.send_error_slack(traceback.format_exc())
+
+# handle logins entry service data
+try:
+    df = entryservice.get_data_login()
+    bigquery.upload_data(df, 'kennzahlenupdate.entryservice_logins')
 except Exception:
     error.send_error_slack(traceback.format_exc())
