@@ -61,5 +61,3 @@ try:
     bigquery.upload_data(df, 'kennzahlenupdate.topartikel_registrierungen')
 except Exception:
     error.send_error_slack(traceback.format_exc())
-
-

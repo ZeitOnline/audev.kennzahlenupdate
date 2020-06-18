@@ -22,6 +22,11 @@ else:
 # get list of all tables in bigquery dataset 'kennzahlenupdate'
 tables = bigquery.get_tables_list("kennzahlenupdate")
 
+# remove topartikel (history not needed)
+tables.remove("kennzahlenupdate.topartikel")
+tables.remove("kennzahlenupdate.topartikel_bestellungen")
+tables.remove("kennzahlenupdate.topartikel_registrierungen")
+
 # loop through all tables
 for table in tables:
 
