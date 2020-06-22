@@ -4,7 +4,7 @@ Date:       08.06.20
 
 This module finds missing dates in bigquery and adds the missing data (if api didn't work)
 """
-from src import bigquery, usercentric, topartikel, referrertraffic, ivw, adimpressions
+from src import bigquery, usercentric, topartikel, referrertraffic, ivw, adimpressions, entryservice
 import logging
 from datetime import datetime
 import sys
@@ -26,6 +26,11 @@ tables = bigquery.get_tables_list("kennzahlenupdate")
 tables.remove("kennzahlenupdate.topartikel")
 tables.remove("kennzahlenupdate.topartikel_bestellungen")
 tables.remove("kennzahlenupdate.topartikel_registrierungen")
+tables.remove("kennzahlenupdate.entryservice_logins")
+tables.remove("kennzahlenupdate.entryservice_registrierungen")
+
+# set tables to only one table
+tables = "kennzahlenupdate.usercentric"
 
 # loop through all tables
 for table in tables:
@@ -51,7 +56,11 @@ for table in tables:
         elif table == "kennzahlenupdate.ivw_visits":
             df_advanced, df_lifeview = ivw.get_data(date_from=date, date_to=date)
             df = ivw.parse_data(df_advanced)
+        elif table == "kennzahlenupdate.entryservice_registrierungen":
+            df = entryservice.get_data_reg(date_from=date, date_to=date)
+        elif table == "kennzahlenupdate.entryservice_logins":
+            df = entryservice.get_data_login(date_from=date, date_to=date)
         else:
-            logging.info(str(datetime.now()) + table + " not listed in if statements")
+            logging.info(str(datetime.now()) + " " + table + " not listed in if statements")
         bigquery.upload_data(df, table)
 
