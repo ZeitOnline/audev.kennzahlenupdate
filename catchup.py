@@ -30,7 +30,7 @@ tables.remove("kennzahlenupdate.entryservice_logins")
 tables.remove("kennzahlenupdate.entryservice_registrierungen")
 
 # set tables to only one table
-tables = "kennzahlenupdate.usercentric"
+tables = ["kennzahlenupdate.usercentric"]
 
 # loop through all tables
 for table in tables:
