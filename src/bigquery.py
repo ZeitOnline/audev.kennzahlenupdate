@@ -159,3 +159,18 @@ def get_missing_dates(table, min_date):
         return dates
     else:
         logging.info(str(datetime.now()) + table + " doesn't exist")
+
+
+def get_data(sql):
+    """
+    retrieves data for given sql sequence
+    :param: sql: sql sequence
+    :return: dataframe with data
+    """
+    # initialize client
+    client = gcbq.Client()
+
+    df = client.query(sql).to_dataframe()
+    df.date = df.date.dt.strftime("%Y-%m-%d")
+
+    return df
