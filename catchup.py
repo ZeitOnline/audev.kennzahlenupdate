@@ -17,7 +17,7 @@ logging.basicConfig(filename="kennzahlenupdate_catchup.log", level=logging.INFO)
 if len(sys.argv) - 1 > 0:
     min_date = sys.argv[1]
 else:
-    min_date = "2020-05-10"
+    min_date = "2020-07-01"
 
 # get list of all tables in bigquery dataset 'kennzahlenupdate'
 tables = bigquery.get_tables_list("kennzahlenupdate")
@@ -30,7 +30,7 @@ tables.remove("kennzahlenupdate.entryservice_logins")
 tables.remove("kennzahlenupdate.entryservice_registrierungen")
 
 # set tables to only one table
-tables = ["kennzahlenupdate.usercentric"]
+tables = ["kennzahlenupdate.adimpressions"]
 
 # loop through all tables
 for table in tables:
@@ -46,7 +46,7 @@ for table in tables:
         elif table == "kennzahlenupdate.referrertraffic":
             df = referrertraffic.get_data(date_from=date, date_to=date)
         elif table == "kennzahlenupdate.adimpressions":
-            df = adimpressions.get_data(date_from=date, date_to=date)
+            df = adimpressions.get_data_admanager(date_from=date, date_to=date)
         elif table == "kennzahlenupdate.topartikel":
             df = topartikel.get_data_top(date_from=date, date_to=date)
         elif table == "kennzahlenupdate.topartikel_bestellungen":

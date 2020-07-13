@@ -37,7 +37,7 @@ except Exception:
 
 # handle adimpressions data
 try:
-    df = adimpressions.get_data()
+    df = adimpressions.get_data_admanager()
     bigquery.upload_data(df, 'kennzahlenupdate.adimpressions')
 except Exception:
     error.send_error_slack(traceback.format_exc())
