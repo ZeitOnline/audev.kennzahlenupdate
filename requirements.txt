@@ -30,6 +30,7 @@ pyarrow==0.17.1
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pyparsing==2.4.7
+pysqlite3==0.4.3
 python-dateutil==2.8.1
 pytz==2020.1
 PyYAML==5.3.1
