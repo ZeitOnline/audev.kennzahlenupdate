@@ -8,9 +8,8 @@ api)
 from src import api
 import pandas as pd
 import logging
-from datetime import datetime, timedelta
-from googleads import ad_manager
-from googleads import oauth2
+from datetime import datetime
+import googleads
 import tempfile
 
 def get_data(date_from=api.get_datetime_yesterday(),
@@ -73,10 +72,14 @@ def get_data_admanager(date_from=api.get_datetime_yesterday(),
     network_code = 183
 
     # Initialize the GoogleRefreshTokenClient
-    oauth2_client = oauth2.GoogleServiceAccountClient(key_file, oauth2.GetAPIScope('ad_manager'))
+    oauth2_client = \
+        googleads.oauth2.GoogleServiceAccountClient(key_file,
+                                                    googleads.oauth2.GetAPIScope('ad_manager'))
 
     # Initialize the Ad Manager client.
-    ad_manager_client = ad_manager.AdManagerClient(oauth2_client, application_name, network_code)
+    ad_manager_client = \
+        googleads.ad_manager.AdManagerClient(oauth2_client, application_name, network_code,
+                                             cache=googleads.common.ZeepServiceProxy.NO_CACHE)
 
     # create dictionary with all report informations
     report_dict = create_admanager_dict()
@@ -162,7 +165,7 @@ def run_admanager_job(date_from=api.get_datetime_yesterday(),
     report_downloader = client.GetDataDownloader(version='v201911')
 
     # Create statement object to filter
-    statement = (ad_manager.StatementBuilder(version='v202005')
+    statement = (googleads.ad_manager.StatementBuilder(version='v202005')
                  .Where(where_condition)
                  .WithBindVariable('customTargetingValueId', custom_targeting_value_id)
                  .WithBindVariable('adUnitId', ad_unit_id)
