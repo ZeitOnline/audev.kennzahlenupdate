@@ -26,11 +26,8 @@ tables = bigquery.get_tables_list("kennzahlenupdate")
 tables.remove("kennzahlenupdate.topartikel")
 tables.remove("kennzahlenupdate.topartikel_bestellungen")
 tables.remove("kennzahlenupdate.topartikel_registrierungen")
-tables.remove("kennzahlenupdate.entryservice_logins")
-tables.remove("kennzahlenupdate.entryservice_registrierungen")
-
-# set tables to only one table
-tables = ["kennzahlenupdate.adimpressions"]
+tables.remove("kennzahlenupdate.ivw_visits_predictions")
+tables.remove("kennzahlenupdate.planzahlen")
 
 # loop through all tables
 for table in tables:
