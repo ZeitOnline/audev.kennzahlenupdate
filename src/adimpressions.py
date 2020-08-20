@@ -12,6 +12,9 @@ from datetime import datetime
 import googleads
 import tempfile
 
+# disable default logging of module
+logging.getLogger("googleads").setLevel(logging.WARNING)
+
 def get_data(date_from=api.get_datetime_yesterday(),
              date_to=api.get_datetime_yesterday()):
     """
