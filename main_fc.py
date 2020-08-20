@@ -12,6 +12,10 @@ import warnings
 from src import bigquery
 from numpy import round
 from dateutil.relativedelta import relativedelta
+import logging
+
+# initialize log file
+logging.basicConfig(filename="kennzahlenupdate.log", level=logging.INFO)
 
 df = forecast3.get_data()
 
@@ -21,6 +25,9 @@ pred_stat = forecast3.arima_model(df.zon_stationaer, arima_order=(6,0,6), horizo
 pred_mobile = forecast3.arima_model(df.zon_mobile, arima_order=(6,0,6), horizon=31)
 pred_android = forecast3.arima_model(df.zon_android, arima_order=(6,0,6), horizon=31)
 pred_ios = forecast3.arima_model(df.zon_ios, arima_order=(6,0,6), horizon=31)
+
+# log
+logging.info(str(datetime.now()) + ' forecasting finished')
 
 # get real values from past days this month
 cur_month = datetime.today().strftime("%Y-%m")
