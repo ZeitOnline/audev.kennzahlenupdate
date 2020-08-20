@@ -21,13 +21,14 @@ df = forecast3.get_data()
 
 # train models and get predictions
 warnings.filterwarnings('ignore')
-pred_stat = forecast3.arima_model(df.zon_stationaer, arima_order=(6,0,6), horizon=31)
-pred_mobile = forecast3.arima_model(df.zon_mobile, arima_order=(6,0,6), horizon=31)
-pred_android = forecast3.arima_model(df.zon_android, arima_order=(6,0,6), horizon=31)
-pred_ios = forecast3.arima_model(df.zon_ios, arima_order=(6,0,6), horizon=31)
-
-# log
-logging.info(str(datetime.now()) + ' forecasting finished')
+pred_stat = forecast3.arima_model(df.zon_stationaer, arima_order=(6, 0, 6),
+                                  horizon=31, dataset_name='stationaer')
+pred_mobile = forecast3.arima_model(df.zon_mobile, arima_order=(6, 0, 6),
+                                    horizon=31, dataset_name='mobile')
+pred_android = forecast3.arima_model(df.zon_android, arima_order=(6, 0, 6),
+                                     horizon=31, dataset_name='android')
+pred_ios = forecast3.arima_model(df.zon_ios, arima_order=(6, 0, 6),
+                                 horizon=31, dataset_name='ios')
 
 # get real values from past days this month
 cur_month = datetime.today().strftime("%Y-%m")

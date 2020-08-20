@@ -9,6 +9,8 @@ model
 import pandas as pd
 from src import bigquery
 from statsmodels.tsa.arima_model import ARIMA
+import logging
+from datetime import datetime
 
 
 def get_data():
@@ -57,12 +59,13 @@ def inverse_difference(history, yhat, interval=1):
 	return yhat + history[-interval]
 
 
-def arima_model(df, arima_order, horizon=31):
+def arima_model(df, arima_order, horizon=31, dataset_name=None):
 	"""
 	this function trains and makes predictions using the arima model
 	:param df: dataframe to be predicted
 	:param arima_order: order of arima model
 	:param horizon: horizon of prediction
+	:param: dataset_name: one of stationaer, mobile, android, ios
 	:return: returns vector with predictions; len=horizon
 	"""
 	# prepare training dataset
@@ -80,6 +83,8 @@ def arima_model(df, arima_order, horizon=31):
 		yhat = inverse_difference(history, yhat, days)
 		predictions.append(yhat)
 		history.append(predictions[t])
+
+	logging.info(str(datetime.now()) + ' forecasting finished for ' + dataset_name)
 	return predictions
 
 
