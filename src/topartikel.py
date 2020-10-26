@@ -119,7 +119,8 @@ def get_title_from_xml(url):
     req = requests.get(url)
     soup = BeautifulSoup(req.content, 'lxml')
     title = soup.body.title.text
-    return title
+    spitzmarke = soup.body.supertitle.text
+    return spitzmarke + ': ' + title
 
 
 def get_data_top_best(date_from=api.get_datetime_yesterday(),
