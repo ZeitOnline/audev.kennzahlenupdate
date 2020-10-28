@@ -117,9 +117,9 @@ def get_title_from_xml(url):
     """
     url = 'http://xml' + url.partition('www')[2]
     req = requests.get(url)
-    soup = BeautifulSoup(req.content, 'lxml')
-    title = soup.body.title.text
-    spitzmarke = soup.body.supertitle
+    soup = BeautifulSoup(req.content, 'xml')
+    title = soup.article.body.title.text
+    spitzmarke = soup.article.body.supertitle
     if spitzmarke is not None:
         spitzmarke = spitzmarke.text
         title = spitzmarke + ': ' + title
