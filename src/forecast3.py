@@ -59,15 +59,21 @@ def inverse_difference(history, yhat, interval=1):
 	return yhat + history[-interval]
 
 
-def arima_model(df, arima_order, horizon=31, dataset_name=None):
+def arima_model(df, dataset_name):
 	"""
 	this function trains and makes predictions using the arima model
-	:param df: dataframe to be predicted
-	:param arima_order: order of arima model
-	:param horizon: horizon of prediction
-	:param: dataset_name: one of stationaer, mobile, android, ios
+	:param lst: [df: dataframe to be predicted,
+				 dataset_name: one of stationaer, mobile, android, ios]
 	:return: returns vector with predictions; len=horizon
 	"""
+	# unpack arguments
+	#df = lst[0]
+	#dataset_name = lst[1]
+	arima_order = (6, 0, 6)
+	horizon = 31
+
+	print('start forecasting ' + dataset_name)
+
 	# prepare training dataset
 	X = df.astype("float32")
 	history = [x for x in X]
@@ -85,6 +91,7 @@ def arima_model(df, arima_order, horizon=31, dataset_name=None):
 		history.append(predictions[t])
 
 	logging.info(str(datetime.now()) + ' forecasting finished for ' + dataset_name)
+	print('forecasting finished for ' + dataset_name)
 	return predictions
 
 
