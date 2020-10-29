@@ -13,22 +13,42 @@ from src import bigquery
 from numpy import round
 from dateutil.relativedelta import relativedelta
 import logging
+import ray
 
-# initialize log file
+# initialize log file and ray
 logging.basicConfig(filename="kennzahlenupdate.log", level=logging.INFO)
+ray.init()
 
+# get data
 df = forecast3.get_data()
 
-# train models and get predictions
+# train models and get predictions in parallel
 warnings.filterwarnings('ignore')
-pred_stat = forecast3.arima_model(df.zon_stationaer, arima_order=(6, 0, 6),
-                                  horizon=31, dataset_name='stationaer')
-pred_mobile = forecast3.arima_model(df.zon_mobile, arima_order=(6, 0, 6),
-                                    horizon=31, dataset_name='mobile')
-pred_android = forecast3.arima_model(df.zon_android, arima_order=(6, 0, 6),
-                                     horizon=31, dataset_name='android')
-pred_ios = forecast3.arima_model(df.zon_ios, arima_order=(6, 0, 6),
-                                 horizon=31, dataset_name='ios')
+
+@ray.remote
+def func_pred_stat():
+    return forecast3.arima_model(df.zon_stationaer, dataset_name='stationaer')
+
+@ray.remote
+def func_pred_mobile():
+    return forecast3.arima_model(df.zon_mobile, dataset_name='mobile')
+
+@ray.remote
+def func_pred_android():
+    return forecast3.arima_model(df.zon_android, dataset_name='android')
+
+@ray.remote
+def func_pred_ios():
+    return forecast3.arima_model(df.zon_ios, dataset_name='ios')
+
+res_func_stat = func_pred_stat.remote()
+res_func_mobile = func_pred_mobile.remote()
+res_func_android = func_pred_android.remote()
+res_func_ios = func_pred_ios.remote()
+
+pred_stat, pred_mobile, pred_android, pred_ios = ray.get([res_func_stat, res_func_mobile,
+                                                          res_func_android, res_func_ios])
+
 
 # get real values from past days this month
 cur_month = datetime.today().strftime("%Y-%m")

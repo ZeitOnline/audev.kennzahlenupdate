@@ -92,6 +92,6 @@ def arima_model(df, dataset_name):
 
 	logging.info(str(datetime.now()) + ' forecasting finished for ' + dataset_name)
 	print('forecasting finished for ' + dataset_name)
-	return {dataset_name: predictions}
+	return predictions
 
 
