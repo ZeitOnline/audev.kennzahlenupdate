@@ -165,10 +165,10 @@ def run_admanager_job(date_from=api.get_datetime_yesterday(),
     date_to = datetime.strptime(date_to, '%Y-%m-%d').date()
 
     # Initialize a DataDownloader.
-    report_downloader = client.GetDataDownloader(version='v201911')
+    report_downloader = client.GetDataDownloader(version='v202011')
 
     # Create statement object to filter
-    statement = (googleads.ad_manager.StatementBuilder(version='v202005')
+    statement = (googleads.ad_manager.StatementBuilder(version='v202011')
                  .Where(where_condition)
                  .WithBindVariable('customTargetingValueId', custom_targeting_value_id)
                  .WithBindVariable('adUnitId', ad_unit_id)
