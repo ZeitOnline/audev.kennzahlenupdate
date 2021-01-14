@@ -115,7 +115,8 @@ def get_title_from_xml(url):
     :param url: url of article
     :return: title of article
     """
-    url = 'http://xml' + url.partition('www')[2]
+    #url = 'http://xml' + url.partition('www')[2]
+    url = "http://cms-backend.zeit.de:9000/cms/work" + url.partition('www.zeit.de')[2]
     req = requests.get(url)
     soup = BeautifulSoup(req.content, 'xml')
 
@@ -131,6 +132,16 @@ def get_title_from_xml(url):
         title = spitzmarke + ': ' + title
 
     return title
+
+
+def get_title_from_tms(url):
+    """
+    this function retrieves the title for a given article url; authentication happens only within
+    zeit vpn
+    :param url: url of article
+    :return:
+    """
+    url = url.partition('www.')[2]
 
 
 def get_data_top_best(date_from=api.get_datetime_yesterday(),
