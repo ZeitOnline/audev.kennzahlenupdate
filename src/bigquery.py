@@ -12,6 +12,7 @@ from datetime import datetime, date, timedelta
 import logging
 from src import api
 import pandas as pd
+from google.oauth2 import service_account
 
 # setup authentication for bigquery via JSON key file
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "audev-bigquery-default.json"
@@ -172,5 +173,26 @@ def get_data(sql):
 
     df = client.query(sql).to_dataframe()
     df.date = df.date.dt.strftime("%Y-%m-%d")
+
+    return df
+
+
+def get_data_wfc(sql):
+    """
+    retrieves data for given sql sequence in gcp project webtrekk for content
+    :param: sql: sql sequence
+    :return: dataframe
+    """
+    # set different service account
+    key_path = "audev-webtrekk-for-content-reporting.json"
+
+    credentials = service_account.Credentials.from_service_account_file(
+        key_path, scopes=["https://www.googleapis.com/auth/cloud-platform"],
+    )
+
+    # initialize client
+    client = gcbq.Client(credentials=credentials, project=credentials.project_id,)
+
+    df = client.query(sql).to_dataframe()
 
     return df
