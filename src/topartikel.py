@@ -115,12 +115,12 @@ def get_title_from_xml(url):
     :param url: url of article
     :return: title of article
     """
-    url = 'http://xml' + url.partition('www')[2]
-    #url = "http://cms-backend.zeit.de:9000/cms/work" + url.partition('www.zeit.de')[2]
-    req = requests.get(url)
-    soup = BeautifulSoup(req.content, 'xml')
 
     try:
+        url = 'http://xml' + url.partition('www')[2]
+        # url = "http://cms-backend.zeit.de:9000/cms/work" + url.partition('www.zeit.de')[2]
+        req = requests.get(url)
+        soup = BeautifulSoup(req.content, 'xml')
         title = soup.article.body.title.text
         spitzmarke = soup.article.body.supertitle
     except:
