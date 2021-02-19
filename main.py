@@ -16,8 +16,14 @@ logging.basicConfig(filename="kennzahlenupdate.log", level=logging.INFO)
 # handle IVW data
 try:
     df_advanced, df_lifeview = ivw.get_data()
-    df = ivw.parse_data(df_advanced, df_lifeview)
-    bigquery.upload_data(df, 'kennzahlenupdate.ivw_visits')
+    df_updates = ivw.parse_data(df_advanced)
+    df_new = ivw.parse_data(df_lifeview)
+    df_new = df_new.iloc[:1]
+
+    result = bigquery.upload_data(df_new, 'kennzahlenupdate.ivw_visits')
+    # only update rows, if upload of new data was successful
+    if result:
+        bigquery.update_data(df_updates, 'kennzahlenupdate.ivw_visits')
 except Exception:
     error.send_error_slack(traceback.format_exc())
 

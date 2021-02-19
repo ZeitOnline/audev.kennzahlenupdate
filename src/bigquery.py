@@ -12,6 +12,7 @@ from datetime import datetime, date, timedelta
 import logging
 from src import api
 import pandas as pd
+import numpy as np
 from google.oauth2 import service_account
 
 # setup authentication for bigquery via JSON key file
@@ -23,16 +24,13 @@ def upload_data(df, table_id):
     this function uploads a dataframe to bigquery
     :param table_id: dataset_id.table_id
     :param df: pandas dataframe
+    :return returns True if upload was successful
     """
     # initialize client
     client = gcbq.Client()
 
     # get date of last entry in bigquery
     last_date = check_date(client, table_id)
-
-    # if ivw data, delete recent days first
-    if (table_id=="kennzahlenupdate.ivw_visits" and len(df)==7 and last_date != df.date.iloc[-1]):
-        delete_recent_ivw(client)
 
     # define job_config for upload
     job_config = gcbq.LoadJobConfig(
@@ -43,6 +41,7 @@ def upload_data(df, table_id):
     if last_date != df.date.iloc[-1]:
         client.load_table_from_dataframe(df, table_id, job_config=job_config).result()
         logging.info(str(datetime.now()) + ' data uploaded to ' + table_id + '...')
+        return True
     else:
         logging.info(str(datetime.now()) + ' no data to upload to ' + table_id)
 
@@ -196,3 +195,41 @@ def get_data_wfc(sql):
     df = client.query(sql).to_dataframe()
 
     return df
+
+
+def update_data(df, table_id):
+    """
+    updates recent numbers for ivw_visits
+    :param df: dataframe with data to update for each day
+    :param table_id: so far only kennzahlenupdate.ivw_visits
+    :return:
+    """
+    # initialize client
+    client = gcbq.Client()
+
+    # reduce df
+    rel_col = ['date', 'zon_stationaer', 'zon_mobile', 'zon_android', 'zon_ios']
+    df = df[rel_col]
+
+    # erase falsy columns that contain zeros
+    df = df.replace(0, np.nan).dropna(axis=0, how='any')
+
+    if table_id == "kennzahlenupdate.ivw_visits":
+        for cur_date in df.date:
+            df_cur = df.loc[df.date == cur_date]
+            dml_statement = (
+                "UPDATE " + table_id + " "
+                "SET zon_stationaer=" + str(df_cur.iloc[0].zon_stationaer) + ", "
+                "zon_mobile=" + str(df_cur.iloc[0].zon_mobile) + ", "
+                "zon_android=" + str(df_cur.iloc[0].zon_android) + ", "
+                "zon_ios=" + str(df_cur.iloc[0].zon_ios) + " "
+                "WHERE date='" + str(cur_date) + "'"
+             )
+            query_job = client.query(dml_statement)
+            query_job.result()
+            logging.info(str(datetime.now()) + ' updated ' + str(cur_date) + " in " + table_id)
+    else:
+        logging.info(str(datetime.now()) + ' WARNING update on wrong dataset ' + table_id)
+
+
+
