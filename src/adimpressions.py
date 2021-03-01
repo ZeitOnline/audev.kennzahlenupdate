@@ -24,6 +24,7 @@ def get_data(date_from=api.get_datetime_yesterday(),
     :return: dataframe with relevant information [date, ai_stationaer, ai_mobile, ai_hp_stationaer,
                                                     ai_hp_mobile]
     """
+
     # build analysisConfig
     analysisConfig = {
         "hideFooters": [1],
