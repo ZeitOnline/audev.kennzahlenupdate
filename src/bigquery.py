@@ -13,7 +13,6 @@ import logging
 from src import api
 import pandas as pd
 import numpy as np
-from google.oauth2 import service_account
 
 # setup authentication for bigquery via JSON key file
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "audev-bigquery-default.json"
@@ -40,10 +39,10 @@ def upload_data(df, table_id):
     # upload dataframe to bigquery table, but only if there are no entries of today already
     if last_date != df.date.iloc[-1]:
         client.load_table_from_dataframe(df, table_id, job_config=job_config).result()
-        logging.info(str(datetime.now()) + ' data uploaded to ' + table_id + '...')
+        logging.info('data uploaded to ' + table_id + '...')
         return True
     else:
-        logging.info(str(datetime.now()) + ' no data to upload to ' + table_id)
+        logging.info('no data to upload to ' + table_id)
 
 
 
@@ -67,7 +66,7 @@ def delete_recent_ivw(client):
         last_six_days = str(date.today() - timedelta(days=7))
         sql = "DELETE FROM kennzahlenupdate.ivw_visits WHERE date >= '" + last_six_days + "'"
         client.query(sql)
-    logging.info(str(datetime.now()) + ' last six days deleted in kennzahlenupdate.ivw_visits..')
+    logging.info('last six days deleted in kennzahlenupdate.ivw_visits..')
 
 
 def check_date(client, table_id):
@@ -149,16 +148,14 @@ def get_missing_dates(table, min_date):
 
         # log if there are missing dates
         if len(dates) == 0:
-            logging.info(
-                str(datetime.now()) + ' ########## no missing dates in ' + table + ' ###########')
+            logging.info('########## no missing dates in ' + table + ' ###########')
         else:
-            logging.info(
-                str(datetime.now()) + ' ########## missing dates in ' + table + ' ###########')
+            logging.info('########## missing dates in ' + table + ' ###########')
 
         # return missing dates
         return dates
     else:
-        logging.info(str(datetime.now()) + table + " doesn't exist")
+        logging.info(table + " doesn't exist")
 
 
 def get_data(sql):
@@ -172,27 +169,6 @@ def get_data(sql):
 
     df = client.query(sql).to_dataframe()
     df.date = df.date.dt.strftime("%Y-%m-%d")
-
-    return df
-
-
-def get_data_wfc(sql):
-    """
-    retrieves data for given sql sequence in gcp project webtrekk for content
-    :param: sql: sql sequence
-    :return: dataframe
-    """
-    # set different service account
-    key_path = "audev-webtrekk-for-content-reporting.json"
-
-    credentials = service_account.Credentials.from_service_account_file(
-        key_path, scopes=["https://www.googleapis.com/auth/cloud-platform"],
-    )
-
-    # initialize client
-    client = gcbq.Client(credentials=credentials, project=credentials.project_id,)
-
-    df = client.query(sql).to_dataframe()
 
     return df
 
@@ -227,9 +203,9 @@ def update_data(df, table_id):
              )
             query_job = client.query(dml_statement)
             query_job.result()
-            logging.info(str(datetime.now()) + ' updated ' + str(cur_date) + " in " + table_id)
+            logging.info('updated ' + str(cur_date) + " in " + table_id)
     else:
-        logging.info(str(datetime.now()) + ' WARNING update on wrong dataset ' + table_id)
+        logging.info('WARNING update on wrong dataset ' + table_id)
 
 
 

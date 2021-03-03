@@ -10,75 +10,82 @@ from src import ivw, referrertraffic, usercentric, adimpressions, bigquery, erro
 import logging
 import traceback
 
-# initialize log file
-logging.basicConfig(filename="kennzahlenupdate.log", level=logging.INFO)
+# initialize logging
+logging.basicConfig(format='%(asctime)s %(message)s', level=logging.INFO)
+logging.getLogger(__name__)
 
-# handle IVW data
-try:
-    df_advanced, df_lifeview = ivw.get_data()
-    df_updates = ivw.parse_data(df_advanced)
-    df_new = ivw.parse_data(df_lifeview)
-    df_new = df_new.iloc[:1]
 
-    result = bigquery.upload_data(df_new, 'kennzahlenupdate.ivw_visits')
-    # only update rows, if upload of new data was successful
-    if result:
-        bigquery.update_data(df_updates, 'kennzahlenupdate.ivw_visits')
-except Exception:
-    error.send_error_slack(traceback.format_exc())
+def run_ku():
+    # handle IVW data
+    try:
+        df_advanced, df_lifeview = ivw.get_data()
+        df_updates = ivw.parse_data(df_advanced)
+        df_new = ivw.parse_data(df_lifeview)
+        df_new = df_new.iloc[:1]
 
-# handle referrertraffic data
-try:
-    df = referrertraffic.get_data()
-    bigquery.upload_data(df, 'kennzahlenupdate.referrertraffic')
-except Exception:
-    error.send_error_slack(traceback.format_exc())
+        result = bigquery.upload_data(df_new, 'kennzahlenupdate.ivw_visits')
+        # only update rows, if upload of new data was successful
+        if result:
+            bigquery.update_data(df_updates, 'kennzahlenupdate.ivw_visits')
+    except Exception:
+        error.send_error_slack(traceback.format_exc())
 
-# handle usercentric data
-try:
-    df = usercentric.get_data()
-    bigquery.upload_data(df, 'kennzahlenupdate.usercentric')
-except Exception:
-    error.send_error_slack(traceback.format_exc())
+    # handle referrertraffic data
+    try:
+        df = referrertraffic.get_data()
+        bigquery.upload_data(df, 'kennzahlenupdate.referrertraffic')
+    except Exception:
+        error.send_error_slack(traceback.format_exc())
 
-# handle adimpressions data
-try:
-    df = adimpressions.get_data_admanager()
-    bigquery.upload_data(df, 'kennzahlenupdate.adimpressions')
-except Exception:
-    error.send_error_slack(traceback.format_exc())
+    # handle usercentric data
+    try:
+        df = usercentric.get_data()
+        bigquery.upload_data(df, 'kennzahlenupdate.usercentric')
+    except Exception:
+        error.send_error_slack(traceback.format_exc())
 
-# handle topartikel (reichweite) data
-try:
-    df = topartikel.get_data_top()
-    bigquery.upload_data(df, 'kennzahlenupdate.topartikel')
-except Exception:
-    error.send_error_slack(traceback.format_exc())
+    # handle adimpressions data
+    try:
+        df = adimpressions.get_data_admanager()
+        bigquery.upload_data(df, 'kennzahlenupdate.adimpressions')
+    except Exception:
+        error.send_error_slack(traceback.format_exc())
 
-# handle topartikel bestellungen data
-try:
-    df = topartikel.get_data_top_best()
-    bigquery.upload_data(df, 'kennzahlenupdate.topartikel_bestellungen')
-except Exception:
-    error.send_error_slack(traceback.format_exc())
+    # handle topartikel (reichweite) data
+    try:
+        df = topartikel.get_data_top()
+        bigquery.upload_data(df, 'kennzahlenupdate.topartikel')
+    except Exception:
+        error.send_error_slack(traceback.format_exc())
 
-# handle topartikel registrierungen data
-try:
-    df = topartikel.get_data_top_reg()
-    bigquery.upload_data(df, 'kennzahlenupdate.topartikel_registrierungen')
-except Exception:
-    error.send_error_slack(traceback.format_exc())
+    # handle topartikel bestellungen data
+    try:
+        df = topartikel.get_data_top_best()
+        bigquery.upload_data(df, 'kennzahlenupdate.topartikel_bestellungen')
+    except Exception:
+        error.send_error_slack(traceback.format_exc())
 
-# handle registrierungen entry service data
-try:
-    df = entryservice.get_data_reg()
-    bigquery.upload_data(df, 'kennzahlenupdate.entryservice_registrierungen')
-except Exception:
-    error.send_error_slack(traceback.format_exc())
+    # handle topartikel registrierungen data
+    try:
+        df = topartikel.get_data_top_reg()
+        bigquery.upload_data(df, 'kennzahlenupdate.topartikel_registrierungen')
+    except Exception:
+        error.send_error_slack(traceback.format_exc())
 
-# handle logins entry service data
-try:
-    df = entryservice.get_data_login()
-    bigquery.upload_data(df, 'kennzahlenupdate.entryservice_logins')
-except Exception:
-    error.send_error_slack(traceback.format_exc())
+    # handle registrierungen entry service data
+    try:
+        df = entryservice.get_data_reg()
+        bigquery.upload_data(df, 'kennzahlenupdate.entryservice_registrierungen')
+    except Exception:
+        error.send_error_slack(traceback.format_exc())
+
+    # handle logins entry service data
+    try:
+        df = entryservice.get_data_login()
+        bigquery.upload_data(df, 'kennzahlenupdate.entryservice_logins')
+    except Exception:
+        error.send_error_slack(traceback.format_exc())
+
+
+if __name__ == "__main__":
+    run_ku()

@@ -10,7 +10,6 @@ This module contains all necessary functions to import topartikel in three categ
 
 from src import api, bigquery
 import pandas as pd
-from datetime import datetime, timedelta
 import logging
 import requests
 from bs4 import BeautifulSoup
@@ -104,7 +103,7 @@ def get_data_top(date_from=api.get_datetime_yesterday(),
     convert_cols = df.columns.drop(['date', 'rank', 'title', 'url'])
     df[convert_cols] = df[convert_cols].apply(pd.to_numeric, errors='coerce')
 
-    logging.info(str(datetime.now()) + ' topartikel imported from webtrekk for ' + date_from)
+    logging.info('topartikel imported from webtrekk for ' + date_from)
 
     return df
 
@@ -206,7 +205,7 @@ def get_data_top_best(date_from=api.get_datetime_yesterday(),
     convert_cols = df.columns.drop(['date', 'rank', 'title', 'url'])
     df[convert_cols] = df[convert_cols].apply(pd.to_numeric, errors='coerce')
 
-    logging.info(str(datetime.now()) + ' topartikel bestellungen imported from webtrekk for '
+    logging.info('topartikel bestellungen imported from webtrekk for '
                  + date_from)
 
     return df
@@ -270,7 +269,7 @@ def get_data_top_reg(date_from=api.get_datetime_yesterday(),
     convert_cols = df.columns.drop(['date', 'rank', 'title', 'url'])
     df[convert_cols] = df[convert_cols].apply(pd.to_numeric, errors='coerce')
 
-    logging.info(str(datetime.now()) + ' topartikel registrierungen imported from webtrekk for '
+    logging.info('topartikel registrierungen imported from webtrekk for '
                  + date_from)
 
     return df

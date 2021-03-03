@@ -10,7 +10,6 @@ import pandas as pd
 from src import bigquery
 from statsmodels.tsa.arima_model import ARIMA
 import logging
-from datetime import datetime
 
 
 def get_data():
@@ -30,6 +29,8 @@ def get_data():
 
 	# convert to date object
 	df.date = pd.to_datetime(df.date, format="%Y-%m-%d")
+
+	logging.info('data imported for forecasting')
 
 	return df
 
@@ -72,7 +73,7 @@ def arima_model(df, dataset_name):
 	arima_order = (6, 0, 6)
 	horizon = 31
 
-	print('start forecasting ' + dataset_name)
+	logging.info('start forecasting ' + dataset_name)
 
 	# prepare training dataset
 	X = df.astype("float32")
@@ -90,8 +91,7 @@ def arima_model(df, dataset_name):
 		predictions.append(yhat)
 		history.append(predictions[t])
 
-	logging.info(str(datetime.now()) + ' forecasting finished for ' + dataset_name)
-	print('forecasting finished for ' + dataset_name)
+	logging.info('forecasting finished for ' + dataset_name)
 	return predictions
 
 
