@@ -34,7 +34,6 @@ def run_forecast():
 
     # filter warnings
     warnings.filterwarnings('ignore')
-    warnings.simplefilter('ignore', ConvergenceWarning)
 
     # train models and get predictions in parallel
     @ray.remote
