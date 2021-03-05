@@ -5,10 +5,15 @@ Date:       29.04.20
 This module is the main module. It calls all necessary functions in order to get the necessary data
 and upload it to bigquery
 """
+import os
+import sys
 import logging
 import traceback
 
-from ..src import ivw, referrertraffic, usercentric, \
+# add parent directory to sys.path in order to import modules
+sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
+
+from src import ivw, referrertraffic, usercentric, \
     adimpressions, bigquery, error, topartikel, \
     entryservice
 
@@ -90,4 +95,5 @@ def run_ku():
 
 
 if __name__ == "__main__":
+    print("start running")
     run_ku()

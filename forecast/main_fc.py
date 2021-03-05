@@ -4,19 +4,24 @@ Date:       01.07.20
 
 This module runs actual forecasting functions
 """
-
-from src import forecast3
-import pandas as pd
-from datetime import datetime
+import os
+import sys
 import warnings
-from statsmodels.tools.sm_exceptions import ConvergenceWarning
-from src import bigquery
-from numpy import round
-from dateutil.relativedelta import relativedelta
 import logging
-import ray
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+from statsmodels.tools.sm_exceptions import ConvergenceWarning
 
-# initialize log file and ray
+import ray
+import pandas as pd
+from numpy import round
+
+# add parent directory to sys.path in order to import modules
+sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
+
+from src import forecast3, bigquery
+
+# initialize log file
 logging.basicConfig(format='%(asctime)s %(message)s', level=logging.INFO)
 logging.getLogger(__name__)
 
