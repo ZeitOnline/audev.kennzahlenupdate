@@ -5,10 +5,12 @@ Date:       29.04.20
 This module is the main module. It calls all necessary functions in order to get the necessary data
 and upload it to bigquery
 """
-from src import ivw, referrertraffic, usercentric, adimpressions, bigquery, error, topartikel, \
-    entryservice
 import logging
 import traceback
+
+from ..src import ivw, referrertraffic, usercentric, \
+    adimpressions, bigquery, error, topartikel, \
+    entryservice
 
 # initialize logging
 logging.basicConfig(format='%(asctime)s %(message)s', level=logging.INFO)
