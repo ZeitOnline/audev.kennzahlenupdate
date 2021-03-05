@@ -5,12 +5,15 @@ Date:       03.06.20
 This module contains all functions to retrieve the ad impressions data from webtrekk (or ad manager
 api)
 """
-from src import api
-import pandas as pd
 import logging
-from datetime import datetime
-import googleads
 import tempfile
+from datetime import datetime
+
+import pandas as pd
+import googleads
+
+from src import api
+
 
 # disable default logging of module
 logging.getLogger("googleads").setLevel(logging.WARNING)

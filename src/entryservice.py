@@ -5,10 +5,11 @@ Date:       17.06.20
 This module contains all necessary functions to import and upload daily registrierungen and logins
 per entry service
 """
-from src import api
-import pandas as pd
 import logging
-from datetime import datetime
+
+import pandas as pd
+
+from src import api
 
 
 def get_data_reg(date_from=api.get_datetime_yesterday(),

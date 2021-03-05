@@ -4,10 +4,11 @@ Date:       04.05.20
 
 This module contains all functions getting and processing referrertraffic from webtrekk
 """
-from src import api
-import pandas as pd
-from datetime import datetime
 import logging
+
+import pandas as pd
+
+from src import api
 
 
 def get_data(date_from=api.get_datetime_yesterday(),

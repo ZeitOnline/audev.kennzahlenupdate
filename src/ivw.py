@@ -4,8 +4,10 @@ Date:       29.04.20
 
 This module contains all functions to import IVW data from reshin dashboard
 """
-from src import api
 import pandas as pd
+
+from src import api
+
 
 def get_data(date_from=None, date_to=None):
     """

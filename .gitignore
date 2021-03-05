@@ -1,6 +1,6 @@
 /kennzahlenupdate.log
 /kennzahlenupdate_catchup.log
 
-/credentials/admanager-auth.json
-/credentials/audev-bigquery-default.json
-/credentials/config.json
+/admanager-auth.json
+/audev-bigquery-default.json
+/config.json

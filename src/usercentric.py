@@ -4,11 +4,11 @@ Date:       07.05.20
 
 This module contains all functions to import user centric relevant data from webtrekk/mapp
 """
+import logging
+
+import pandas as pd
 
 from src import api
-import pandas as pd
-import logging
-from datetime import datetime
 
 
 def get_data(date_from=api.get_datetime_yesterday(),

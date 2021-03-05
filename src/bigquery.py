@@ -6,13 +6,16 @@ This module contains all functions for data upload to bigquery. Note: before upl
 data are deleted, to avoid duplicates. This is necessary in order to update recent days.
 """
 import os
-import google.cloud.bigquery as gcbq
-from google.cloud.exceptions import NotFound
-from datetime import datetime, date, timedelta
 import logging
-from src import api
+from datetime import date, timedelta
+
 import pandas as pd
 import numpy as np
+import google.cloud.bigquery as gcbq
+from google.cloud.exceptions import NotFound
+
+from src import api
+
 
 # setup authentication for bigquery via JSON key file
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "audev-bigquery-default.json"

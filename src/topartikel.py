@@ -7,12 +7,13 @@ This module contains all necessary functions to import topartikel in three categ
 - meisten probeabos (topartikel_best)
 - meisten registrierungen (topartikel_reg)
 """
-
-from src import api, bigquery
-import pandas as pd
 import logging
 import requests
+
+import pandas as pd
 from bs4 import BeautifulSoup
+
+from src import api, bigquery
 
 
 def get_data_top(date_from=api.get_datetime_yesterday(),

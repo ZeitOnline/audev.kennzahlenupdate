@@ -5,11 +5,12 @@ Date:       01.07.20
 This module contains all functions neccessary to make ivw visit forecast; this is done using a ARIMA
 model
 """
+import logging
 
 import pandas as pd
-from src import bigquery
 from statsmodels.tsa.arima_model import ARIMA
-import logging
+
+from src import bigquery
 
 
 def get_data():
