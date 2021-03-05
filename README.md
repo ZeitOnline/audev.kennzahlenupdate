@@ -14,3 +14,6 @@ The _forecast_ part takes care of the monthly forecast generated from the IVW
 data. Build a docker image with 
 ``docker build -t <tag>:<version> -f forecast/Dockerfile .``.
 
+Both parts share common code, however they are treated as seperate applications 
+to keep the flexibility of executing them standalone.  
+
