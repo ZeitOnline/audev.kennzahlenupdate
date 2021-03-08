@@ -22,11 +22,12 @@ steps:
       - echo $ADCREDS > admanager-auth.json
       - echo $APICREDS > config.json
 
-  - name: build
+  - name: build-import
     image: plugins/gcr
     settings:
+      dockerfile: import/Dockerfile
       registry: eu.gcr.io
-      repo: audev-217815/audev-kennzahlenupdate
+      repo: zeitonline-210413/audev-kennzahlenupdate
       tags:
         - latest
         - ${DRONE_COMMIT}
@@ -38,3 +39,15 @@ steps:
       - name: docker
         path: /var/run/docker.sock
 
+volumes:
+- name: docker
+  host:
+    path: /var/run/docker.sock
+
+---
+
+kind: secret
+name: gcp_service_account
+get:
+  path: zon/v1/gcp/zeitonline-gke-misc-prod/gke/production/ci/audev-kennzahlenupdate
+  name: key
