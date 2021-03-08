@@ -1,2 +1,24 @@
 kind: pipeline
 name: default
+
+trigger:
+  branch:
+  - dev-docker-container
+  event:
+  - push
+
+steps:
+  - name: credentials
+    image: busybox
+    environment:
+      BQCREDS:
+        from_secret: audev-bigquery-default
+      ADCREDS:
+        from_secret: admanager-auth
+      APICREDS:
+        from_secret: config
+    commands:
+      - echo $BQCREDS > audev-bigquery-default.json
+      - echo $ADCREDS > admanager-auth.json
+      - echo $APICREDS > config.json
+
