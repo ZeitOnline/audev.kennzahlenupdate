@@ -57,6 +57,19 @@ steps:
       - name: docker
         path: /var/run/docker.sock
 
+  - name: deploy
+    image: eu.gcr.io/zeitonline-210413/zon-drone-kubectl:2.7.3
+    settings:
+      gcp_credentials:
+        from_secret: gcp_service_account
+      project: zeitonline-gke-misc-prod
+      zone: europe-west3-a
+      cluster: zon-misc-prod-1
+    commands:
+      - '(cd k8s/base && kustomize edit set image eu.gcr.io/zeitonline-210413/audev-kennzahlenupdate-import:${DRONE_COMMIT})'
+      - '(cd k8s/base && kustomize edit set image eu.gcr.io/zeitonline-210413/audev-kennzahlenupdate-forecast:${DRONE_COMMIT})'
+      - kubectl apply -n audev-kennzahlenupdate -k k8s/staging
+
 volumes:
 - name: docker
   host:
