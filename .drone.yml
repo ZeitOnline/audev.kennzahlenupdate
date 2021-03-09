@@ -1,5 +1,6 @@
 kind: pipeline
 name: default
+type: docker
 
 trigger:
   branch:
@@ -26,6 +27,23 @@ steps:
     image: plugins/gcr
     settings:
       dockerfile: import/Dockerfile
+      registry: eu.gcr.io
+      repo: zeitonline-210413/audev-kennzahlenupdate
+      tags:
+        - latest
+        - ${DRONE_COMMIT}
+      environment:
+        VERSION: "${DRONE_COMMIT}"
+      json_key:
+        from_secret: gcp_service_account
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
+
+  - name: build-forecast
+    image: plugins/gcr
+    settings:
+      dockerfile: forecast/Dockerfile
       registry: eu.gcr.io
       repo: zeitonline-210413/audev-kennzahlenupdate
       tags:
