@@ -66,9 +66,9 @@ steps:
       zone: europe-west3-a
       cluster: zon-misc-prod-1
     commands:
-      - '(cd k8s/base && kustomize edit set image eu.gcr.io/zeitonline-210413/audev-kennzahlenupdate-import:${DRONE_COMMIT})'
-      - '(cd k8s/base && kustomize edit set image eu.gcr.io/zeitonline-210413/audev-kennzahlenupdate-forecast:${DRONE_COMMIT})'
-      - kubectl apply -n audev-kennzahlenupdate -k k8s/staging
+      - '(cd k8s && kustomize edit set image eu.gcr.io/zeitonline-210413/audev-kennzahlenupdate-import:${DRONE_COMMIT})'
+      - '(cd k8s && kustomize edit set image eu.gcr.io/zeitonline-210413/audev-kennzahlenupdate-forecast:${DRONE_COMMIT})'
+      - kubectl apply -n audev-kennzahlenupdate -k k8s
 
 volumes:
 - name: docker
