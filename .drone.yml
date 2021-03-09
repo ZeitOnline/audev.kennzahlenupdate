@@ -28,7 +28,7 @@ steps:
     settings:
       dockerfile: import/Dockerfile
       registry: eu.gcr.io
-      repo: zeitonline-210413/audev-kennzahlenupdate
+      repo: zeitonline-210413/audev-kennzahlenupdate-import
       tags:
         - latest
         - ${DRONE_COMMIT}
@@ -45,7 +45,7 @@ steps:
     settings:
       dockerfile: forecast/Dockerfile
       registry: eu.gcr.io
-      repo: zeitonline-210413/audev-kennzahlenupdate
+      repo: zeitonline-210413/audev-kennzahlenupdate-forecast
       tags:
         - latest
         - ${DRONE_COMMIT}

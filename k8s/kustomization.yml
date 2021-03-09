@@ -1,0 +1,3 @@
+resources:
+  - cronjob-import.yml
+  - cronjob-forecast.yml
