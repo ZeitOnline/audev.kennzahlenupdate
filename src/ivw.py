@@ -4,6 +4,8 @@ Date:       29.04.20
 
 This module contains all functions to import IVW data from reshin dashboard
 """
+import logging
+
 import pandas as pd
 
 from src import api
@@ -30,6 +32,8 @@ def get_data(date_from=None, date_to=None):
 
         # get lifeview data of yesterday
         df_lifeview = get_data_aggr(days_back=1, aggr="hour")
+
+    logging.info('ivw imported from f3 api for ' + date_from)
 
     return df_advanced, df_lifeview
 
