@@ -103,6 +103,8 @@ def get_data_admanager(date_from=api.get_datetime_yesterday(),
     df = pd.DataFrame([value_dict])
     df.date = pd.to_datetime(df.date, format="%Y-%m-%d")
 
+    logging.info('ad impressions imported from AdManager for ' + date_from)
+
     return df
 
 
