@@ -36,7 +36,7 @@ def run_ku():
             bigquery.update_data(df_updates, 'kennzahlenupdate.ivw_visits')
     except Exception:
         error.send_error_slack(traceback.format_exc())
-        logging.warning('exception caught for ivw')
+        logging.warning(traceback.format_exc())
 
     # handle referrertraffic data
     try:
@@ -44,7 +44,7 @@ def run_ku():
         bigquery.upload_data(df, 'kennzahlenupdate.referrertraffic')
     except Exception:
         error.send_error_slack(traceback.format_exc())
-        logging.warning('exception caught for referrertraffic')
+        logging.warning(traceback.format_exc())
 
     # handle usercentric data
     try:
@@ -52,7 +52,7 @@ def run_ku():
         bigquery.upload_data(df, 'kennzahlenupdate.usercentric')
     except Exception:
         error.send_error_slack(traceback.format_exc())
-        logging.warning('exception caught for usercentric')
+        logging.warning(traceback.format_exc())
 
     # handle adimpressions data
     try:
@@ -60,7 +60,7 @@ def run_ku():
         bigquery.upload_data(df, 'kennzahlenupdate.adimpressions')
     except Exception:
         error.send_error_slack(traceback.format_exc())
-        logging.warning('exception caught for adimpressions')
+        logging.warning(traceback.format_exc())
 
     # handle topartikel (reichweite) data
     try:
@@ -68,7 +68,7 @@ def run_ku():
         bigquery.upload_data(df, 'kennzahlenupdate.topartikel')
     except Exception:
         error.send_error_slack(traceback.format_exc())
-        logging.warning('exception caught for topartikel')
+        logging.warning(traceback.format_exc())
 
     # handle topartikel bestellungen data
     try:
@@ -76,7 +76,7 @@ def run_ku():
         bigquery.upload_data(df, 'kennzahlenupdate.topartikel_bestellungen')
     except Exception:
         error.send_error_slack(traceback.format_exc())
-        logging.warning('exception caught for topartikel_bestellungen')
+        logging.warning(traceback.format_exc())
 
     # handle topartikel registrierungen data
     try:
@@ -84,7 +84,7 @@ def run_ku():
         bigquery.upload_data(df, 'kennzahlenupdate.topartikel_registrierungen')
     except Exception:
         error.send_error_slack(traceback.format_exc())
-        logging.warning('exception caught for topartikel_registrierungen')
+        logging.warning(traceback.format_exc())
 
     # handle registrierungen entry service data
     try:
@@ -92,7 +92,7 @@ def run_ku():
         bigquery.upload_data(df, 'kennzahlenupdate.entryservice_registrierungen')
     except Exception:
         error.send_error_slack(traceback.format_exc())
-        logging.warning('exception caught for entryservice_registrierungen')
+        logging.warning(traceback.format_exc())
 
     # handle logins entry service data
     try:
@@ -100,7 +100,7 @@ def run_ku():
         bigquery.upload_data(df, 'kennzahlenupdate.entryservice_logins')
     except Exception:
         error.send_error_slack(traceback.format_exc())
-        logging.warning('exception caught for entryservice_logins')
+        logging.warning(traceback.format_exc())
 
 
 if __name__ == "__main__":
