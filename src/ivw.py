@@ -33,7 +33,7 @@ def get_data(date_from=None, date_to=None):
         # get lifeview data of yesterday
         df_lifeview = get_data_aggr(days_back=1, aggr="hour")
 
-    logging.info('ivw imported from f3 api for ' + date_from)
+    logging.info('ivw imported from f3 api')
 
     return df_advanced, df_lifeview
 
