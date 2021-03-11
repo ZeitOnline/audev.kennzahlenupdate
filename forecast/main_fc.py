@@ -92,7 +92,7 @@ def run_forecast():
     df_upload = df_real.append(df_fc)
 
     # upload forecast to bigquery
-    bigquery.upload_data(df_upload, "kennzahlenupdate.ivw_visits_predictions")
+    bigquery.upload_data(df_upload, "kennzahlenupdate.test_ivw_visits_predictions")
 
 
 if __name__ == "__main__":
