@@ -1,6 +1,6 @@
-/audev-bigquery-default.json
 /kennzahlenupdate.log
 /kennzahlenupdate_catchup.log
+
+/admanager-auth.json
+/audev-bigquery-default.json
 /config.json
-admanager-auth.json
-/audev-webtrekk-for-content-reporting.json

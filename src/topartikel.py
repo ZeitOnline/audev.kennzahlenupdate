@@ -7,13 +7,14 @@ This module contains all necessary functions to import topartikel in three categ
 - meisten probeabos (topartikel_best)
 - meisten registrierungen (topartikel_reg)
 """
-
-from src import api, bigquery
-import pandas as pd
-from datetime import datetime, timedelta
+import json
 import logging
 import requests
+
+import pandas as pd
 from bs4 import BeautifulSoup
+
+from src import api, bigquery
 
 
 def get_data_top(date_from=api.get_datetime_yesterday(),
@@ -93,7 +94,7 @@ def get_data_top(date_from=api.get_datetime_yesterday(),
 
     # use only url of article and get title
     df.url = df.url.str.partition('|')[2]
-    df["title"] = df.url.apply(lambda x: get_title_from_xml(x))
+    df["title"] = df.url.apply(lambda x: get_title_from_tms(x))
 
     # rearrange order of colummns
     cols = df.columns.tolist()
@@ -104,12 +105,12 @@ def get_data_top(date_from=api.get_datetime_yesterday(),
     convert_cols = df.columns.drop(['date', 'rank', 'title', 'url'])
     df[convert_cols] = df[convert_cols].apply(pd.to_numeric, errors='coerce')
 
-    logging.info(str(datetime.now()) + ' topartikel imported from webtrekk for ' + date_from)
+    logging.info('topartikel imported from webtrekk for ' + date_from)
 
     return df
 
 
-def get_title_from_xml(url):
+def get_title_from_tms(url):
     """
     this functions retrieves the title from a given article url
     :param url: url of article
@@ -117,32 +118,32 @@ def get_title_from_xml(url):
     """
 
     try:
-        url = 'http://xml' + url.partition('www')[2]
-        # url = "http://cms-backend.zeit.de:9000/cms/work" + url.partition('www.zeit.de')[2]
-        req = requests.get(url)
-        soup = BeautifulSoup(req.content, 'xml')
-        title = soup.article.body.title.text
-        spitzmarke = soup.article.body.supertitle
+        url = url.partition('www.zeit.de')[2]
+        data = {
+            "query": {
+                "term": {
+                    "url": url
+                }
+            },
+            "_source": [
+                "title",
+                "supertitle"
+            ]
+        }
+
+        endpoint = 'https://tms.zeit.de:9091/zeit_content/_search'
+        req = requests.get(endpoint, json=data)
+        req_dict = json.loads(req.content)
+
+        title = req_dict.get("hits").get("hits")[0].get('_source').get('title')
+        spitzmarke = req_dict.get("hits").get("hits")[0].get('_source').\
+            get('supertitle')
     except:
         title = "Article has no title"
         spitzmarke = None
 
     if spitzmarke is not None:
-        spitzmarke = spitzmarke.text
         title = spitzmarke + ': ' + title
-
-    return title
-
-
-def get_title_from_tms(url):
-    """
-    this function retrieves the title from a given url from the tms data in bigquery
-    :param url: url of article
-    :return: title of article
-    """
-    sql = 'SELECT title from `audev-webtrekk-for-content.wfc.tms` WHERE url = "' + url + '"'
-    df_title = bigquery.get_data_wfc(sql)
-    title = df_title.title[0]
 
     return title
 
@@ -195,7 +196,7 @@ def get_data_top_best(date_from=api.get_datetime_yesterday(),
 
     # use only url of article and get title
     df.url = df.url.str.partition('|')[2]
-    df["title"] = df.url.apply(lambda x: get_title_from_xml(x))
+    df["title"] = df.url.apply(lambda x: get_title_from_tms(x))
 
     # rearrange order of colummns
     cols = df.columns.tolist()
@@ -206,7 +207,7 @@ def get_data_top_best(date_from=api.get_datetime_yesterday(),
     convert_cols = df.columns.drop(['date', 'rank', 'title', 'url'])
     df[convert_cols] = df[convert_cols].apply(pd.to_numeric, errors='coerce')
 
-    logging.info(str(datetime.now()) + ' topartikel bestellungen imported from webtrekk for '
+    logging.info('topartikel bestellungen imported from webtrekk for '
                  + date_from)
 
     return df
@@ -259,7 +260,7 @@ def get_data_top_reg(date_from=api.get_datetime_yesterday(),
     df["rank"] = range(1, 1+len(df))
 
     # get title
-    df["title"] = df.url.apply(lambda x: get_title_from_xml(x))
+    df["title"] = df.url.apply(lambda x: get_title_from_tms(x))
 
     # rearrange order of colummns
     cols = df.columns.tolist()
@@ -270,7 +271,7 @@ def get_data_top_reg(date_from=api.get_datetime_yesterday(),
     convert_cols = df.columns.drop(['date', 'rank', 'title', 'url'])
     df[convert_cols] = df[convert_cols].apply(pd.to_numeric, errors='coerce')
 
-    logging.info(str(datetime.now()) + ' topartikel registrierungen imported from webtrekk for '
+    logging.info('topartikel registrierungen imported from webtrekk for '
                  + date_from)
 
     return df

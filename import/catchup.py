@@ -4,16 +4,23 @@ Date:       08.06.20
 
 This module finds missing dates in bigquery and adds the missing data (if api didn't work)
 """
-from src import bigquery, usercentric, topartikel, referrertraffic, ivw, adimpressions, entryservice
-import logging
-from datetime import datetime
+import os
 import sys
+import logging
 
-# initialize log file
-logging.basicConfig(filename="kennzahlenupdate_catchup.log", level=logging.INFO)
+# add parent directory to sys.path in order to import modules
+sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
-# check if any arguments are set by user, otherwise set min_date for which the tables should be
-# filled
+from src import bigquery, usercentric, topartikel, referrertraffic, \
+    ivw, adimpressions, entryservice
+
+
+# initialize logging
+logging.basicConfig(format='%(asctime)s %(message)s', level=logging.INFO)
+logging.getLogger(__name__)
+
+# check if any arguments are set by user, otherwise set min_date for which
+# the tables should be filled
 if len(sys.argv) - 1 > 0:
     min_date = sys.argv[1]
 else:
@@ -58,6 +65,6 @@ for table in tables:
         elif table == "kennzahlenupdate.entryservice_logins":
             df = entryservice.get_data_login(date_from=date, date_to=date)
         else:
-            logging.info(str(datetime.now()) + " " + table + " not listed in if statements")
+            logging.info(table + " not listed in if statements")
         bigquery.upload_data(df, table)
 

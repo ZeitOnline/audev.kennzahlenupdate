@@ -9,6 +9,7 @@ This module contains all functions to upload Planzahlen to bigquery
 """
 
 import pandas as pd
+
 from src import bigquery
 
 df = pd.read_csv("/Users/humberg/Downloads/planzahlen_zon.csv", encoding='ISO-8859-1', delimiter=";")

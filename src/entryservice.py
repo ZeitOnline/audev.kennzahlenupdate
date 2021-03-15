@@ -5,10 +5,11 @@ Date:       17.06.20
 This module contains all necessary functions to import and upload daily registrierungen and logins
 per entry service
 """
-from src import api
-import pandas as pd
 import logging
-from datetime import datetime
+
+import pandas as pd
+
+from src import api
 
 
 def get_data_reg(date_from=api.get_datetime_yesterday(),
@@ -55,7 +56,7 @@ def get_data_reg(date_from=api.get_datetime_yesterday(),
     cols = cols[-1:] + cols[:-1]
     df = df[cols]
 
-    logging.info(str(datetime.now()) + ' entry service registration imported from webtrekk for '
+    logging.info('entry service registration imported from webtrekk for '
                  + date_from)
 
     return df
@@ -105,7 +106,7 @@ def get_data_login(date_from=api.get_datetime_yesterday(),
     cols = cols[-1:] + cols[:-1]
     df = df[cols]
 
-    logging.info(str(datetime.now()) + ' entry service login imported from webtrekk for '
+    logging.info('entry service login imported from webtrekk for '
                  + date_from)
 
     return df

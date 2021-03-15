@@ -4,11 +4,11 @@ Date:       07.05.20
 
 This module contains all functions to import user centric relevant data from webtrekk/mapp
 """
+import logging
+
+import pandas as pd
 
 from src import api
-import pandas as pd
-import logging
-from datetime import datetime
 
 
 def get_data(date_from=api.get_datetime_yesterday(),
@@ -145,6 +145,6 @@ def get_data(date_from=api.get_datetime_yesterday(),
     convert_cols = df.columns.drop('date')
     df[convert_cols] = df[convert_cols].apply(pd.to_numeric, errors='coerce')
 
-    logging.info(str(datetime.now()) + ' usercentric imported from webtrekk for ' + date_from)
+    logging.info('usercentric imported from webtrekk for ' + date_from)
 
     return df

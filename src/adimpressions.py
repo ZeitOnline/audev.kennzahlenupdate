@@ -5,12 +5,15 @@ Date:       03.06.20
 This module contains all functions to retrieve the ad impressions data from webtrekk (or ad manager
 api)
 """
-from src import api
-import pandas as pd
 import logging
-from datetime import datetime
-import googleads
 import tempfile
+from datetime import datetime
+
+import pandas as pd
+import googleads
+
+from src import api
+
 
 # disable default logging of module
 logging.getLogger("googleads").setLevel(logging.WARNING)
@@ -56,7 +59,7 @@ def get_data(date_from=api.get_datetime_yesterday(),
     convert_cols = df.columns.drop('date')
     df[convert_cols] = df[convert_cols].apply(pd.to_numeric, errors='coerce')
 
-    logging.info(str(datetime.now()) + ' ad impressions imported from webtrekk for ' + date_from)
+    logging.info('ad impressions imported from webtrekk for ' + date_from)
 
     return df
 
@@ -99,6 +102,8 @@ def get_data_admanager(date_from=api.get_datetime_yesterday(),
 
     df = pd.DataFrame([value_dict])
     df.date = pd.to_datetime(df.date, format="%Y-%m-%d")
+
+    logging.info('ad impressions imported from AdManager for ' + date_from)
 
     return df
 

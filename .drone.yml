@@ -1,0 +1,84 @@
+kind: pipeline
+name: default
+type: docker
+
+trigger:
+  branch:
+  - master
+  event:
+  - push
+
+steps:
+  - name: credentials
+    image: busybox
+    environment:
+      BQCREDS:
+        from_secret: audev-bigquery-default
+      ADCREDS:
+        from_secret: admanager-auth
+      APICREDS:
+        from_secret: config
+    commands:
+      - echo $BQCREDS > audev-bigquery-default.json
+      - echo $ADCREDS > admanager-auth.json
+      - echo $APICREDS > config.json
+
+  - name: build-import
+    image: plugins/gcr
+    settings:
+      dockerfile: import/Dockerfile
+      registry: eu.gcr.io
+      repo: zeitonline-210413/audev-kennzahlenupdate-import
+      tags:
+        - latest
+        - ${DRONE_COMMIT}
+      environment:
+        VERSION: "${DRONE_COMMIT}"
+      json_key:
+        from_secret: gcp_service_account
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
+
+  - name: build-forecast
+    image: plugins/gcr
+    settings:
+      dockerfile: forecast/Dockerfile
+      registry: eu.gcr.io
+      repo: zeitonline-210413/audev-kennzahlenupdate-forecast
+      tags:
+        - latest
+        - ${DRONE_COMMIT}
+      environment:
+        VERSION: "${DRONE_COMMIT}"
+      json_key:
+        from_secret: gcp_service_account
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
+
+  - name: deploy
+    image: eu.gcr.io/zeitonline-210413/zon-drone-kubectl:2.7.3
+    settings:
+      gcp_credentials:
+        from_secret: gcp_service_account
+      project: zeitonline-gke-misc-prod
+      zone: europe-west3-a
+      cluster: zon-misc-prod-1
+    commands:
+      - '(cd k8s && kustomize edit set image eu.gcr.io/zeitonline-210413/audev-kennzahlenupdate-import:${DRONE_COMMIT})'
+      - '(cd k8s && kustomize edit set image eu.gcr.io/zeitonline-210413/audev-kennzahlenupdate-forecast:${DRONE_COMMIT})'
+      - kubectl apply -n audev-kennzahlenupdate -k k8s
+
+volumes:
+- name: docker
+  host:
+    path: /var/run/docker.sock
+
+---
+
+kind: secret
+name: gcp_service_account
+get:
+  path: zon/v1/gcp/zeitonline-gke-misc-prod/gke/production/ci/audev-kennzahlenupdate
+  name: key
