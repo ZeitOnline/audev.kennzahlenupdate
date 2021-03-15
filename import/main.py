@@ -104,5 +104,4 @@ def run_ku():
 
 
 if __name__ == "__main__":
-    print("start running")
     run_ku()
