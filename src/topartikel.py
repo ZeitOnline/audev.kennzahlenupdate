@@ -10,11 +10,11 @@ This module contains all necessary functions to import topartikel in three categ
 import json
 import logging
 import requests
+import traceback
 
 import pandas as pd
-from bs4 import BeautifulSoup
 
-from src import api, bigquery
+from src import api
 
 
 def get_data_top(date_from=api.get_datetime_yesterday(),
@@ -138,9 +138,10 @@ def get_title_from_tms(url):
         title = req_dict.get("hits").get("hits")[0].get('_source').get('title')
         spitzmarke = req_dict.get("hits").get("hits")[0].get('_source').\
             get('supertitle')
-    except:
+    except Exception:
         title = "Article has no title"
         spitzmarke = None
+        logging.warning(traceback.format_exc())
 
     if spitzmarke is not None:
         title = spitzmarke + ': ' + title
