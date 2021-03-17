@@ -131,7 +131,7 @@ def get_title_from_tms(url):
             ]
         }
 
-        endpoint = 'https://tms.zeit.de:9091/zeit_content/_search'
+        endpoint = 'https://tms-es.zon.zeit.de/zeit_content/_search'
         req = requests.get(endpoint, json=data)
         req_dict = json.loads(req.content)
 
