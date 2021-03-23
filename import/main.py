@@ -5,6 +5,7 @@ Date:       29.04.20
 This module is the main module. It calls all necessary functions in order to get the necessary data
 and upload it to bigquery
 """
+
 import os
 import sys
 import logging
