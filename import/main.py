@@ -31,10 +31,10 @@ def run_ku():
         df_new = ivw.parse_data(df_lifeview)
         df_new = df_new.iloc[:1]
 
-        result = bigquery.upload_data(df_new, 'kennzahlenupdate.ivw_visits')
+        result = bigquery.upload_data(df_new, 'project_kennzahlenupdate.ivw_visits')
         # only update rows, if upload of new data was successful
         if result:
-            bigquery.update_data(df_updates, 'kennzahlenupdate.ivw_visits')
+            bigquery.update_data(df_updates, 'project_kennzahlenupdate.ivw_visits')
     except Exception:
         error.send_error_slack(traceback.format_exc())
         logging.warning(traceback.format_exc())
@@ -42,7 +42,7 @@ def run_ku():
     # handle referrertraffic data
     try:
         df = referrertraffic.get_data()
-        bigquery.upload_data(df, 'kennzahlenupdate.referrertraffic')
+        bigquery.upload_data(df, 'project_kennzahlenupdate.referrertraffic')
     except Exception:
         error.send_error_slack(traceback.format_exc())
         logging.warning(traceback.format_exc())
@@ -50,7 +50,7 @@ def run_ku():
     # handle usercentric data
     try:
         df = usercentric.get_data()
-        bigquery.upload_data(df, 'kennzahlenupdate.usercentric')
+        bigquery.upload_data(df, 'project_kennzahlenupdate.usercentric')
     except Exception:
         error.send_error_slack(traceback.format_exc())
         logging.warning(traceback.format_exc())
@@ -58,7 +58,7 @@ def run_ku():
     # handle adimpressions data
     try:
         df = adimpressions.get_data_admanager()
-        bigquery.upload_data(df, 'kennzahlenupdate.adimpressions')
+        bigquery.upload_data(df, 'project_kennzahlenupdate.adimpressions')
     except Exception:
         error.send_error_slack(traceback.format_exc())
         logging.warning(traceback.format_exc())
@@ -66,7 +66,7 @@ def run_ku():
     # handle topartikel (reichweite) data
     try:
         df = topartikel.get_data_top()
-        bigquery.upload_data(df, 'kennzahlenupdate.topartikel')
+        bigquery.upload_data(df, 'project_kennzahlenupdate.topartikel')
     except Exception:
         error.send_error_slack(traceback.format_exc())
         logging.warning(traceback.format_exc())
@@ -74,7 +74,7 @@ def run_ku():
     # handle topartikel bestellungen data
     try:
         df = topartikel.get_data_top_best()
-        bigquery.upload_data(df, 'kennzahlenupdate.topartikel_bestellungen')
+        bigquery.upload_data(df, 'project_kennzahlenupdate.topartikel_bestellungen')
     except Exception:
         error.send_error_slack(traceback.format_exc())
         logging.warning(traceback.format_exc())
@@ -82,7 +82,7 @@ def run_ku():
     # handle topartikel registrierungen data
     try:
         df = topartikel.get_data_top_reg()
-        bigquery.upload_data(df, 'kennzahlenupdate.topartikel_registrierungen')
+        bigquery.upload_data(df, 'project_kennzahlenupdate.topartikel_registrierungen')
     except Exception:
         error.send_error_slack(traceback.format_exc())
         logging.warning(traceback.format_exc())
@@ -90,7 +90,7 @@ def run_ku():
     # handle registrierungen entry service data
     try:
         df = entryservice.get_data_reg()
-        bigquery.upload_data(df, 'kennzahlenupdate.entryservice_registrierungen')
+        bigquery.upload_data(df, 'project_kennzahlenupdate.entryservice_registrierungen')
     except Exception:
         error.send_error_slack(traceback.format_exc())
         logging.warning(traceback.format_exc())
@@ -98,7 +98,7 @@ def run_ku():
     # handle logins entry service data
     try:
         df = entryservice.get_data_login()
-        bigquery.upload_data(df, 'kennzahlenupdate.entryservice_logins')
+        bigquery.upload_data(df, 'project_kennzahlenupdate.entryservice_logins')
     except Exception:
         error.send_error_slack(traceback.format_exc())
         logging.warning(traceback.format_exc())

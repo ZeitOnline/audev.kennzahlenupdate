@@ -26,15 +26,15 @@ if len(sys.argv) - 1 > 0:
 else:
     min_date = "2020-07-01"
 
-# get list of all tables in bigquery dataset 'kennzahlenupdate'
-tables = bigquery.get_tables_list("kennzahlenupdate")
+# get list of all tables in bigquery dataset 'project_kennzahlenupdate'
+tables = bigquery.get_tables_list("project_kennzahlenupdate")
 
 # remove topartikel (history not needed)
-tables.remove("kennzahlenupdate.topartikel")
-tables.remove("kennzahlenupdate.topartikel_bestellungen")
-tables.remove("kennzahlenupdate.topartikel_registrierungen")
-tables.remove("kennzahlenupdate.ivw_visits_predictions")
-tables.remove("kennzahlenupdate.planzahlen")
+tables.remove("project_kennzahlenupdate.topartikel")
+tables.remove("project_kennzahlenupdate.topartikel_bestellungen")
+tables.remove("project_kennzahlenupdate.topartikel_registrierungen")
+tables.remove("project_kennzahlenupdate.ivw_visits_predictions")
+tables.remove("project_kennzahlenupdate.planzahlen")
 
 # loop through all tables
 for table in tables:
@@ -45,24 +45,24 @@ for table in tables:
     # add missing data for each missing day
     for date in missing_dates:
 
-        if table == "kennzahlenupdate.usercentric":
+        if table == "project_kennzahlenupdate.usercentric":
             df = usercentric.get_data(date_from=date, date_to=date)
-        elif table == "kennzahlenupdate.referrertraffic":
+        elif table == "project_kennzahlenupdate.referrertraffic":
             df = referrertraffic.get_data(date_from=date, date_to=date)
-        elif table == "kennzahlenupdate.adimpressions":
+        elif table == "project_kennzahlenupdate.adimpressions":
             df = adimpressions.get_data_admanager(date_from=date, date_to=date)
-        elif table == "kennzahlenupdate.topartikel":
+        elif table == "project_kennzahlenupdate.topartikel":
             df = topartikel.get_data_top(date_from=date, date_to=date)
-        elif table == "kennzahlenupdate.topartikel_bestellungen":
+        elif table == "project_kennzahlenupdate.topartikel_bestellungen":
             df = topartikel.get_data_top_best(date_from=date, date_to=date)
-        elif table == "kennzahlenupdate.topartikel_registrierungen":
+        elif table == "project_kennzahlenupdate.topartikel_registrierungen":
             df = topartikel.get_data_top_reg(date_from=date, date_to=date)
-        elif table == "kennzahlenupdate.ivw_visits":
+        elif table == "project_kennzahlenupdate.ivw_visits":
             df_advanced, df_lifeview = ivw.get_data(date_from=date, date_to=date)
             df = ivw.parse_data(df_advanced)
-        elif table == "kennzahlenupdate.entryservice_registrierungen":
+        elif table == "project_kennzahlenupdate.entryservice_registrierungen":
             df = entryservice.get_data_reg(date_from=date, date_to=date)
-        elif table == "kennzahlenupdate.entryservice_logins":
+        elif table == "project_kennzahlenupdate.entryservice_logins":
             df = entryservice.get_data_login(date_from=date, date_to=date)
         else:
             logging.info(table + " not listed in if statements")
