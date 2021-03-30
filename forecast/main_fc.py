@@ -10,7 +10,6 @@ import warnings
 import logging
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from statsmodels.tools.sm_exceptions import ConvergenceWarning
 
 import ray
 import pandas as pd
@@ -92,7 +91,7 @@ def run_forecast():
     df_upload = df_real.append(df_fc)
 
     # upload forecast to bigquery
-    bigquery.upload_data(df_upload, "kennzahlenupdate.ivw_visits_predictions")
+    bigquery.upload_data(df_upload, "project_kennzahlenupdate.ivw_visits_predictions")
 
 
 if __name__ == "__main__":

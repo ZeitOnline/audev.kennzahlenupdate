@@ -4,7 +4,7 @@ Date:       24.06.20
 
 This module contains all functions to upload Planzahlen to bigquery
 - planzahlen are imported from csv
-- append to existing bigquery table kennzahlenupdate.planzahlen
+- append to existing bigquery table project_kennzahlenupdate.planzahlen
 - this has to be done once a year
 """
 
@@ -21,4 +21,4 @@ df = df[df.columns.drop(["year", "month"])]
 df.date = pd.to_datetime(df.date, format="%Y-%m")
 
 # upload to bigquery
-bigquery.upload_data(df, 'kennzahlenupdate.planzahlen')
+bigquery.upload_data(df, 'project_kennzahlenupdate.planzahlen')

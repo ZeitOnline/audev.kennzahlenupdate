@@ -59,7 +59,7 @@ def delete_recent_ivw(client):
 
     # check if table exists
     try:
-        client.get_table("kennzahlenupdate.ivw_visits")
+        client.get_table("project_kennzahlenupdate.ivw_visits")
         table_exists = True
     except NotFound:
         table_exists = False
@@ -67,9 +67,9 @@ def delete_recent_ivw(client):
     # if table exist, delete last 6 entries; last 6 entries are yesterday-6, so today-7
     if table_exists:
         last_six_days = str(date.today() - timedelta(days=7))
-        sql = "DELETE FROM kennzahlenupdate.ivw_visits WHERE date >= '" + last_six_days + "'"
+        sql = "DELETE FROM project_kennzahlenupdate.ivw_visits WHERE date >= '" + last_six_days + "'"
         client.query(sql)
-    logging.info('last six days deleted in kennzahlenupdate.ivw_visits..')
+    logging.info('last six days deleted in project_kennzahlenupdate.ivw_visits..')
 
 
 def check_date(client, table_id):
@@ -180,7 +180,7 @@ def update_data(df, table_id):
     """
     updates recent numbers for ivw_visits
     :param df: dataframe with data to update for each day
-    :param table_id: so far only kennzahlenupdate.ivw_visits
+    :param table_id: so far only project_kennzahlenupdate.ivw_visits
     :return:
     """
     # initialize client
@@ -193,7 +193,7 @@ def update_data(df, table_id):
     # erase falsy columns that contain zeros
     df = df.replace(0, np.nan).dropna(axis=0, how='any')
 
-    if table_id == "kennzahlenupdate.ivw_visits":
+    if table_id == "project_kennzahlenupdate.ivw_visits":
         for cur_date in df.date:
             df_cur = df.loc[df.date == cur_date]
             dml_statement = (

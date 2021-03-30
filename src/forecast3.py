@@ -15,10 +15,10 @@ from src import bigquery
 
 def get_data():
 	"""
-	Fetches all data in kennzahlenupdate.ivw_visits and adds ze.tt to zon accordingly
+	Fetches all data in project_kennzahlenupdate.ivw_visits and adds ze.tt to zon accordingly
 	:return: dataframe with all data from 2015-01-01 onwards
 	"""
-	sql = "SELECT * FROM kennzahlenupdate.ivw_visits WHERE date >= '2015-01-01' ORDER BY date asc"
+	sql = "SELECT * FROM project_kennzahlenupdate.ivw_visits WHERE date >= '2015-01-01' ORDER BY date asc"
 	df = bigquery.get_data(sql)
 
 	# add ze.tt values to corresponding zon values
