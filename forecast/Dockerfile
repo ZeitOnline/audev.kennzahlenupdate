@@ -8,7 +8,7 @@ RUN pip install --no-deps -r requirements.txt
 COPY forecast/main_fc.py .
 
 COPY src ./src
-COPY audev-bigquery-default.json .
+COPY audev-217815-kennzahlenupdate-owner.json .
 COPY config.json .
 COPY admanager-auth.json .
 
