@@ -18,7 +18,7 @@ from src import api
 
 
 # setup authentication for bigquery via JSON key file
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "audev-bigquery-default.json"
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "audev-217815-kennzahlenupdate-owner.json"
 
 
 def upload_data(df, table_id):
