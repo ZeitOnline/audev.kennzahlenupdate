@@ -4,7 +4,9 @@ kind: CronJob
 metadata:
   name: forecast
 spec:
-  schedule: "30 6 * * *"
+  # jobs will run according to kubernetes masters (UTC)
+  # consider the time +2h
+  schedule: "30 4 * * *"
   jobTemplate:
     spec:
       template:
