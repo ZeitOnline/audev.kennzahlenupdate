@@ -37,6 +37,9 @@ def upload_data(df, table_id):
     # define job_config for upload
     job_config = gcbq.LoadJobConfig(
         write_disposition="WRITE_APPEND",
+        schema_update_options = [
+            gcbq.SchemaUpdateOption.ALLOW_FIELD_ADDITION
+        ]
     )
 
     # upload dataframe to bigquery table, but only if there are no entries of today already
