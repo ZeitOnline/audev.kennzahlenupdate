@@ -7,12 +7,11 @@ It consists of two parts:
 * forecast
 
 The _import_ part takes care of importing all necessary data from various 
-sources. Build a docker image with 
-``docker build -t <tag>:<version> -f import/Dockerfile .``.
+sources. Build a docker image with ``make import-build`` and run with ``make import-run``.
 
 The _forecast_ part takes care of the monthly forecast generated from the IVW 
-data. Build a docker image with 
-``docker build -t <tag>:<version> -f forecast/Dockerfile .``.
+data. Build a docker image with ``make forecast-build`` and run with ``make forecast-run``.
+
 
 Both parts share common code, however they are treated as seperate applications 
 to keep the flexibility of executing them standalone.  
