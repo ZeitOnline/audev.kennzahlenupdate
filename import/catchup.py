@@ -12,7 +12,7 @@ import logging
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
 from src import bigquery, usercentric, topartikel, referrertraffic, \
-    ivw, adimpressions, entryservice
+    ivw, entryservice
 
 
 # initialize logging
@@ -49,8 +49,6 @@ for table in tables:
             df = usercentric.get_data(date_from=date, date_to=date)
         elif table == "project_kennzahlenupdate.referrertraffic":
             df = referrertraffic.get_data(date_from=date, date_to=date)
-        elif table == "project_kennzahlenupdate.adimpressions":
-            df = adimpressions.get_data_admanager(date_from=date, date_to=date)
         elif table == "project_kennzahlenupdate.topartikel":
             df = topartikel.get_data_top(date_from=date, date_to=date)
         elif table == "project_kennzahlenupdate.topartikel_bestellungen":

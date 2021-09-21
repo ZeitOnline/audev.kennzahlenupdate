@@ -15,7 +15,7 @@ import traceback
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
 from src import ivw, referrertraffic, usercentric, \
-    adimpressions, bigquery, error, topartikel, \
+    bigquery, error, topartikel, \
     entryservice
 
 # initialize logging
@@ -51,14 +51,6 @@ def run_ku():
     try:
         df = usercentric.get_data()
         bigquery.upload_data(df, 'project_kennzahlenupdate.usercentric')
-    except Exception:
-        error.send_error_slack(traceback.format_exc())
-        logging.warning(traceback.format_exc())
-
-    # handle adimpressions data
-    try:
-        df = adimpressions.get_data_admanager()
-        bigquery.upload_data(df, 'project_kennzahlenupdate.adimpressions')
     except Exception:
         error.send_error_slack(traceback.format_exc())
         logging.warning(traceback.format_exc())
