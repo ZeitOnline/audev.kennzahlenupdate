@@ -21,31 +21,31 @@ spec:
               - name: USER
                 valueFrom:
                   secretKeyRef:
-                    name: webtrekk-credentials
-                    key: user
+                    name: wt-secrets
+                    key: wt_user
               - name: PASSWORD
                 valueFrom:
                   secretKeyRef:
-                    name: webtrekk-credentials
-                    key: password
+                    name: wt-secrets
+                    key: wt_password
               - name: CUSTOMER_ID
                 valueFrom:
                   secretKeyRef:
-                    name: webtrekk-credentials
-                    key: customer_id
+                    name: wt-secrets
+                    key: wt_customer_id
               - name: SLACK_WEBHOOK
                 valueFrom:
                   secretKeyRef:
                     name: slack-webhook
-                    key: webhook
+                    key: slack_webhook
               - name: CLIENT_ID
                 valueFrom:
                   secretKeyRef:
-                    name: f3-reshin-credentials
-                    key: client_id
+                    name: f3-reshin-secrets
+                    key: f3_client_id
               - name: CLIENT_SECRET
                 valueFrom:
                   secretKeyRef:
-                    name: f3-reshin-credentials
-                    key: client_secret
+                    name: f3-reshin-secrets
+                    key: f3_client_secret
           restartPolicy: OnFailure
