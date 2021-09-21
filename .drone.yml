@@ -14,13 +14,10 @@ steps:
     environment:
       BQCREDS:
         from_secret: audev-217815-kennzahlenupdate-owner
-      ADCREDS:
-        from_secret: admanager-auth
       APICREDS:
         from_secret: config
     commands:
       - echo $BQCREDS > audev-217815-kennzahlenupdate-owner.json
-      - echo $ADCREDS > admanager-auth.json
       - echo $APICREDS > config.json
 
   - name: build-import
