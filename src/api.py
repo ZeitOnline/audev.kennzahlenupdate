@@ -5,8 +5,10 @@ Date:       29.04.20
 This module contains all functions related to api calls
 """
 
-import requests
+import os
 import json
+import requests
+
 from datetime import datetime, timedelta
 
 
@@ -206,15 +208,20 @@ def wt_get_token():
     login to webtrekk api and get token
     :return: token from webtrekk to request analyses data
     """
-    config = get_credentials('credentials_wt')
+
+    user = os.environ.get('USER')
+    password = os.environ.get('PASSWORD')
+    customer_id = os.environ.get('CUSTOMER_ID')
+
+
     token = requests.post(
         url='https://report2.webtrekk.de/cgi-bin/wt/JSONRPC.cgi',
         data=json.dumps({
             'params':
                 {
-                    'login': config['user'],
-                    'pass': config['password'],
-                    'customerId': config['customer_id']
+                    'login': user,
+                    'pass': password,
+                    'customerId': customer_id
                 },
             'version': '1.1',
             'method': 'login'
