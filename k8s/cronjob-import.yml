@@ -12,6 +12,7 @@ spec:
       activeDeadlineSeconds: 7200
       template:
         spec:
+          serviceAccountName: baseproject
           containers:
           - name: app
             image: eu.gcr.io/zeitonline-210413/audev-kennzahlenupdate-import:latest
