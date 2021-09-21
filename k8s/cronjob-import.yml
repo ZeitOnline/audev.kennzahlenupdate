@@ -17,4 +17,35 @@ spec:
           - name: app
             image: eu.gcr.io/zeitonline-210413/audev-kennzahlenupdate-import:latest
             imagePullPolicy: IfNotPresent
+            env:
+              - name: USER
+                valueFrom:
+                  secretKeyRef:
+                    name: webtrekk-credentials
+                    key: user
+              - name: PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: webtrekk-credentials
+                    key: password
+              - name: CUSTOMER_ID
+                valueFrom:
+                  secretKeyRef:
+                    name: webtrekk-credentials
+                    key: customer_id
+              - name: SLACK_WEBHOOK
+                valueFrom:
+                  secretKeyRef:
+                    name: slack-webhook
+                    key: webhook
+              - name: CLIENT_ID
+                valueFrom:
+                  secretKeyRef:
+                    name: f3-reshin-credentials
+                    key: client_id
+              - name: CLIENT_SECRET
+                valueFrom:
+                  secretKeyRef:
+                    name: f3-reshin-credentials
+                    key: client_secret
           restartPolicy: OnFailure
