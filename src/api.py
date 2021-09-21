@@ -5,8 +5,10 @@ Date:       29.04.20
 This module contains all functions related to api calls
 """
 
-import requests
+import os
 import json
+import requests
+
 from datetime import datetime, timedelta
 
 
@@ -16,16 +18,17 @@ def f3_call(body):
     :param body: body of api call
     :return: JSON of data
     """
-    # get cred
-    config = get_credentials('credentials_reshin')
+
+    client_id = os.environ.get('CLIENT_ID')
+    client_secret = os.environ.get('CLIENT_SECRET')
 
     # get token
     token = requests.post(
         url='https://app.live2.reshin.de/api/auth/access-token',
         data={
             'grant_type': 'client_credentials',
-            'client_id': config["client_id"],
-            'client_secret': config["client_secret"],
+            'client_id': client_id,
+            'client_secret': client_secret,
             'scope': 'org.reshin.app.zeit.dashboard'
         },
         headers={
@@ -189,32 +192,25 @@ def f3_body(aggr, horizon,
     return data
 
 
-def get_credentials(source='credentials_wt'):
-    """
-    get credentials from local config.json file (see description in notion)
-    :param source: source of credentials
-    :return: credentials [user, password, customer_id[
-    """
-    with open('config.json') as json_config_file:
-        config = json.load(json_config_file)
-    return config[source]
-
-
-
 def wt_get_token():
     """
     login to webtrekk api and get token
     :return: token from webtrekk to request analyses data
     """
-    config = get_credentials('credentials_wt')
+
+    user = os.environ.get('USER')
+    password = os.environ.get('PASSWORD')
+    customer_id = os.environ.get('CUSTOMER_ID')
+
+
     token = requests.post(
         url='https://report2.webtrekk.de/cgi-bin/wt/JSONRPC.cgi',
         data=json.dumps({
             'params':
                 {
-                    'login': config['user'],
-                    'pass': config['password'],
-                    'customerId': config['customer_id']
+                    'login': user,
+                    'pass': password,
+                    'customerId': customer_id
                 },
             'version': '1.1',
             'method': 'login'

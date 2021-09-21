@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  import:
+    environment:
+      - USER=${USER}
+      - PASSWORD=${PASSWORD}
+      - CUSTOMER_ID=${CUSTOMER_ID}
+      - GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS}
+      - CLIENT_id=${CLIENT_ID}
+      - CLIENT_SECRET=${CLIENT_SECRET}
+    build:
+      context: .
+      dockerfile: import/Dockerfile
+    volumes:
+      - ${PWD}/audev-217815-kennzahlenupdate-owner.json:/main-app/audev-217815-kennzahlenupdate-owner.json
+
+  forecast:
+    environment:
+      - USER=${USER}
+      - PASSWORD=${PASSWORD}
+      - CUSTOMER_ID=${CUSTOMER_ID}
+      - GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS}
+      - CLIENT_id=${CLIENT_ID}
+      - CLIENT_SECRET=${CLIENT_SECRET}
+    build:
+      context: .
+      dockerfile: forecast/Dockerfile
+    volumes:
+      - ${PWD}/audev-217815-kennzahlenupdate-owner.json:/fc-app/audev-217815-kennzahlenupdate-owner.json
