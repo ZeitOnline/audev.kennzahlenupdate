@@ -17,10 +17,6 @@ from google.cloud.exceptions import NotFound
 from src import api
 
 
-# setup authentication for bigquery via JSON key file
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "audev-217815-kennzahlenupdate-owner.json"
-
-
 def upload_data(df, table_id):
     """
     this function uploads a dataframe to bigquery
