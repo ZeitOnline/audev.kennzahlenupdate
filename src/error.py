@@ -4,6 +4,7 @@ Date:       19.05.20
 
 This module contains all functions relevant to error handling.
 """
+
 import os
 import sys
 import json
@@ -13,8 +14,6 @@ import getpass
 # add parent directory to sys.path in order to import modules
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
-from src import api
-
 
 def send_error_slack(message):
     """
@@ -23,10 +22,7 @@ def send_error_slack(message):
     :return:
     """
 
-    # get cred
-    config = api.get_credentials('credentials_slack')
-
-    webhook_url = config["webhook"]
+    webhook_url = os.environ.get('SLACK_WEBHOOK')
 
     data = {
         "text": getpass.getuser() + "@audev.kennzahlenupdate :alert:",
