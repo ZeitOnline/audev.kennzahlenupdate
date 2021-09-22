@@ -63,6 +63,14 @@ def run_ku():
         error.send_error_slack(traceback.format_exc())
         logging.warning(traceback.format_exc())
 
+    # handle topartikel abonnenten (reichweite) data
+    try:
+        df = topartikel.get_data_top_abo()
+        bigquery.upload_data(df, 'project_kennzahlenupdate.topartikel_abonnenten')
+    except Exception:
+        error.send_error_slack(traceback.format_exc())
+        logging.warning(traceback.format_exc())
+
     # handle topartikel bestellungen data
     try:
         df = topartikel.get_data_top_best()
