@@ -25,7 +25,7 @@ def upload_data(df, table_id):
     :return returns True if upload was successful
     """
     # initialize client
-    client = gcbq.Client()
+    client = gcbq.Client(project="audev-217815")
 
     # get date of last entry in bigquery
     last_date = check_date(client, table_id)
