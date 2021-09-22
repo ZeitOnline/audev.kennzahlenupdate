@@ -55,6 +55,8 @@ def get_data(date_from=api.get_datetime_yesterday(),
             "title": "Einstiege Push"
         }, {
             "title": "Einstiege sonstige Referrer (all)"
+        }, {
+            "title": "Visits Direct"
         }
         ]}
 
@@ -68,7 +70,7 @@ def get_data(date_from=api.get_datetime_yesterday(),
                  "visits_google_news", "visits_google_org", "visits_push", "visits_sonstige",
                  "einstiege_facebook", "einstiege_firefox", "einstiege_flipboard",
                  "einstiege_google_news", "einstiege_google_org", "einstiege_push",
-                 "einstiege_sonstige"]
+                 "einstiege_sonstige", "visits_direct"]
     df.columns = col_names
     df.date = pd.to_datetime(df.date, format="%d.%m.%Y")
 
