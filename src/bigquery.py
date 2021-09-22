@@ -33,6 +33,7 @@ def upload_data(df, table_id):
     # define job_config for upload
     job_config = gcbq.LoadJobConfig(
         write_disposition="WRITE_APPEND",
+        create_disposition="CREATE_IF_NEEDED",
         schema_update_options=[
             gcbq.SchemaUpdateOption.ALLOW_FIELD_ADDITION
         ]
@@ -45,8 +46,6 @@ def upload_data(df, table_id):
         return True
     else:
         logging.info('no data to upload to ' + table_id)
-
-
 
 
 def delete_recent_ivw(client):
