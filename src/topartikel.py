@@ -165,7 +165,7 @@ def get_data_top_best(date_from=api.get_datetime_yesterday(),
         "stopTime": date_to,
         "analysisFilter": {
             "filterRules": [{
-                "objectTitle": "Wall - Status",
+                "objectTitle": "cp30 - Wall-Status",
                 "comparator": "=",
                 "filter": "paid"
             }]
@@ -299,7 +299,7 @@ def get_pis_of_url(url,
         }],
         "analysisFilter": {
             "filterRules": [{
-                "objectTitle": "Wall - Status",
+                "objectTitle": "cp30 - Wall-Status",
                 "comparator": "=",
                 "filter": "register"
             }, {
