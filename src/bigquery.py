@@ -34,6 +34,10 @@ def upload_data(df, table_id):
     job_config = gcbq.LoadJobConfig(
         write_disposition="WRITE_APPEND",
         create_disposition="CREATE_IF_NEEDED",
+        time_partitioning=gcbq.TimePartitioning(
+            type_=gcbq.TimePartitioningType.DAY,
+            field="date"
+        ),
         schema_update_options=[
             gcbq.SchemaUpdateOption.ALLOW_FIELD_ADDITION
         ]
