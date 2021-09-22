@@ -79,6 +79,14 @@ def run_ku():
         error.send_error_slack(traceback.format_exc())
         logging.warning(traceback.format_exc())
 
+    # handle topartikel kommentare data
+    try:
+        df = topartikel.get_data_top_comments()
+        bigquery.upload_data(df, 'project_kennzahlenupdate.topartikel_comments')
+    except Exception:
+        error.send_error_slack(traceback.format_exc())
+        logging.warning(traceback.format_exc())
+
     # handle registrierungen entry service data
     try:
         df = entryservice.get_data_reg()
