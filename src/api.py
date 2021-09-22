@@ -8,6 +8,7 @@ This module contains all functions related to api calls
 import os
 import json
 import requests
+import logging
 
 from datetime import datetime, timedelta
 
@@ -19,8 +20,8 @@ def f3_call(body):
     :return: JSON of data
     """
 
-    client_id = os.environ.get('CLIENT_ID')
-    client_secret = os.environ.get('CLIENT_SECRET')
+    client_id = os.environ.get('F3_CLIENT_ID')
+    client_secret = os.environ.get('F3_CLIENT_SECRET')
 
     # get token
     token = requests.post(
@@ -198,19 +199,18 @@ def wt_get_token():
     :return: token from webtrekk to request analyses data
     """
 
-    user = os.environ.get('USER')
-    password = os.environ.get('PASSWORD')
-    customer_id = os.environ.get('CUSTOMER_ID')
-
+    wt_user = os.environ.get('WT_USER')
+    wt_password = os.environ.get('WT_PASSWORD')
+    wt_customer_id = os.environ.get('WT_CUSTOMER_ID')
 
     token = requests.post(
         url='https://report2.webtrekk.de/cgi-bin/wt/JSONRPC.cgi',
         data=json.dumps({
             'params':
                 {
-                    'login': user,
-                    'pass': password,
-                    'customerId': customer_id
+                    'login': wt_user,
+                    'pass': wt_password,
+                    'customerId': wt_customer_id
                 },
             'version': '1.1',
             'method': 'login'

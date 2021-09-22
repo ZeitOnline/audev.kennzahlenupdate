@@ -3,12 +3,12 @@ version: '3'
 services:
   import:
     environment:
-      - USER=${USER}
-      - PASSWORD=${PASSWORD}
-      - CUSTOMER_ID=${CUSTOMER_ID}
+      - WT_USER=${WT_USER}
+      - WT_PASSWORD=${WT_PASSWORD}
+      - WT_CUSTOMER_ID=${WT_CUSTOMER_ID}
       - GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS}
-      - CLIENT_id=${CLIENT_ID}
-      - CLIENT_SECRET=${CLIENT_SECRET}
+      - F3_CLIENT_ID=${F3_CLIENT_ID}
+      - F3_CLIENT_SECRET=${F3_CLIENT_SECRET}
     build:
       context: .
       dockerfile: import/Dockerfile
@@ -17,12 +17,12 @@ services:
 
   forecast:
     environment:
-      - USER=${USER}
-      - PASSWORD=${PASSWORD}
-      - CUSTOMER_ID=${CUSTOMER_ID}
+      - WT_USER=${WT_USER}
+      - WT_PASSWORD=${WT_PASSWORD}
+      - WT_CUSTOMER_ID=${WT_CUSTOMER_ID}
       - GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS}
-      - CLIENT_id=${CLIENT_ID}
-      - CLIENT_SECRET=${CLIENT_SECRET}
+      - F3_CLIENT_ID=${F3_CLIENT_ID}
+      - F3_CLIENT_SECRET=${F3_CLIENT_SECRET}
     build:
       context: .
       dockerfile: forecast/Dockerfile
