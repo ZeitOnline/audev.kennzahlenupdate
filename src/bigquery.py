@@ -208,6 +208,3 @@ def update_data(df, table_id):
             logging.info('updated ' + str(cur_date) + " in " + table_id)
     else:
         logging.info('WARNING update on wrong dataset ' + table_id)
-
-
-
