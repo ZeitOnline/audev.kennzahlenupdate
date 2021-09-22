@@ -9,17 +9,6 @@ trigger:
   - push
 
 steps:
-  - name: credentials
-    image: busybox
-    environment:
-      BQCREDS:
-        from_secret: audev-217815-kennzahlenupdate-owner
-      APICREDS:
-        from_secret: config
-    commands:
-      - echo $BQCREDS > audev-217815-kennzahlenupdate-owner.json
-      - echo $APICREDS > config.json
-
   - name: build-import
     image: plugins/gcr
     settings:
