@@ -5,7 +5,7 @@ Date:       30.04.20
 This module contains all functions for data upload to bigquery. Note: before upload, last 7 days of
 data are deleted, to avoid duplicates. This is necessary in order to update recent days.
 """
-import os
+
 import logging
 from datetime import date, timedelta
 
@@ -33,7 +33,12 @@ def upload_data(df, table_id):
     # define job_config for upload
     job_config = gcbq.LoadJobConfig(
         write_disposition="WRITE_APPEND",
-        schema_update_options = [
+        create_disposition="CREATE_IF_NEEDED",
+        time_partitioning=gcbq.TimePartitioning(
+            type_=gcbq.TimePartitioningType.DAY,
+            field="date"
+        ),
+        schema_update_options=[
             gcbq.SchemaUpdateOption.ALLOW_FIELD_ADDITION
         ]
     )
@@ -45,8 +50,6 @@ def upload_data(df, table_id):
         return True
     else:
         logging.info('no data to upload to ' + table_id)
-
-
 
 
 def delete_recent_ivw(client):

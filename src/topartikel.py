@@ -110,6 +110,81 @@ def get_data_top(date_from=api.get_datetime_yesterday(),
     return df
 
 
+def get_data_top_abo(date_from=api.get_datetime_yesterday(),
+                     date_to=api.get_datetime_yesterday()):
+    """
+    function to build anlysisConfig and make api request; function retrieves top five most read
+    articles from yesterday from abonnenten
+    :param date_from:
+    :param date_to:
+    :return: dataframe with top five most read articles from abonnenten
+    """
+    # build analysisConfig
+    analysisConfig = {
+        "hideFooters": [1],
+        "startTime": date_from,
+        "stopTime": date_to,
+        "analysisFilter": {
+            "filterRules": [{
+                "objectTitle": "Seiten",
+                "comparator": "=",
+                "filter": "*.article.*"
+            }]
+        },
+        "analysisObjects": [{
+            "title": "Seiten",
+            "rowLimit": 5
+        }],
+        "metrics": [
+            {
+                "title": "Visits Abonnenten",
+                "sortOrder": "desc"
+            },
+            {
+                "title": "Visits Abonnenten",
+                "metricFilter": {
+                    "filterRules": [
+                        {
+                            "objectTitle": "cp12 - Seitenversion Endgeraet",
+                            "comparator": "=",
+                            "filter": "mobile.*"
+                        }
+                    ]
+                }
+            }
+        ]}
+
+    # request data
+    data = api.wt_get_data(analysisConfig)
+
+    # parse data
+    data = data["result"]["analysisData"]
+    df = pd.DataFrame(data)
+    col_names = ["url", "visits_abonnenten", "visits_abonnenten_mobile"]
+    df.columns = col_names
+
+    # create date and rank
+    df["date"] = pd.to_datetime(date_from)
+    df["rank"] = range(1, 1+len(df))
+
+    # use only url of article and get title
+    df.url = df.url.str.partition('|')[2]
+    df["title"] = df.url.apply(lambda x: get_title_from_tms(x))
+
+    # rearrange order of colummns
+    cols = df.columns.tolist()
+    cols = cols[-3:] + cols[:-3]
+    df = df[cols]
+
+    # convert to numeric columns
+    convert_cols = df.columns.drop(['date', 'rank', 'title', 'url'])
+    df[convert_cols] = df[convert_cols].apply(pd.to_numeric, errors='coerce')
+
+    logging.info('topartikel abonnenten imported from webtrekk for ' + date_from)
+
+    return df
+
+
 def get_title_from_tms(url):
     """
     this functions retrieves the title from a given article url
@@ -349,3 +424,93 @@ def get_pis_of_url(url,
     df_pis.url = df_pis.url.str.partition('|')[2]
 
     return df_pis
+
+
+def get_data_top_comments(date_from=api.get_datetime_yesterday(),
+                          date_to=api.get_datetime_yesterday()):
+    """
+    function to build anlysisConfig and make api request; function retrieves top five commented articles
+    :param date_from:
+    :param date_to:
+    :return: dataframe with top five commented articles
+    """
+    # build analysisConfig
+    analysisConfig = {
+        "hideFooters": [1],
+        "startTime": date_from,
+        "stopTime": date_to,
+        "analysisFilter": {
+            "filterRules": [{
+                "objectTitle": "Seiten",
+                "comparator": "=",
+                "filter": "*.article.*"
+            }]
+        },
+        "analysisObjects": [{
+            "title": "Seiten",
+            "rowLimit": 5
+        }],
+        "metrics": [
+            {
+                "title": "Klicks",
+                "sortOrder": "desc",
+                "metricFilter": {
+                    "filterRules": [
+                        {
+                            "objectTitle": "ck9: Bezeichner (Aktion)",
+                            "comparator": "=",
+                            "filter": "kommentar_senden"
+                        }
+                    ]
+                }
+            }, {
+                "title": "Klicks",
+                "metricFilter": {
+                    "filterRules": [
+                        {
+                            "objectTitle": "ck9: Bezeichner (Aktion)",
+                            "comparator": "=",
+                            "filter": "kommentar_senden"
+                        },
+                        {
+                            "link": "and",
+                            "objectTitle": "cp12 - Seitenversion Endgeraet",
+                            "comparator": "=",
+                            "filter": "mobile.*"
+                        }
+                    ]
+                }
+            }
+
+        ]
+    }
+
+    # request data
+    data = api.wt_get_data(analysisConfig)
+
+    # parse data
+    data = data["result"]["analysisData"]
+    df = pd.DataFrame(data)
+    col_names = ["url", "anzahl_kommentare", "anzahl_kommentare_mobile"]
+    df.columns = col_names
+
+    # create date and rank
+    df["date"] = pd.to_datetime(date_from)
+    df["rank"] = range(1, 1 + len(df))
+
+    # use only url of article and get title
+    df.url = df.url.str.partition('|')[2]
+    df["title"] = df.url.apply(lambda x: get_title_from_tms(x))
+
+    # rearrange order of colummns
+    cols = df.columns.tolist()
+    cols = cols[-3:] + cols[:-3]
+    df = df[cols]
+
+    # convert to numeric columns
+    convert_cols = df.columns.drop(['date', 'rank', 'title', 'url'])
+    df[convert_cols] = df[convert_cols].apply(pd.to_numeric, errors='coerce')
+
+    logging.info('topartikel kommentare imported from webtrekk for ' + date_from)
+
+    return df
