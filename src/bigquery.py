@@ -102,7 +102,7 @@ def get_tables_list(dataset_id):
     :return: list with table names
     """
     # initialize client
-    client = gcbq.Client()
+    client = gcbq.Client(project="audev-217815")
 
     # get list of tables
     tables = client.list_tables(dataset_id)
@@ -122,7 +122,7 @@ def get_missing_dates(table, min_date):
     :return: list of missing dates for specific table
     """
     # initialize client
-    client = gcbq.Client()
+    client = gcbq.Client(project="audev-217815")
 
     # check if table exists
     try:
@@ -167,7 +167,7 @@ def get_data(sql):
     :return: dataframe with data
     """
     # initialize client
-    client = gcbq.Client()
+    client = gcbq.Client(project="audev-217815")
 
     df = client.query(sql).to_dataframe()
     df.date = df.date.dt.strftime("%Y-%m-%d")
@@ -183,7 +183,7 @@ def update_data(df, table_id):
     :return:
     """
     # initialize client
-    client = gcbq.Client()
+    client = gcbq.Client(project="audev-217815")
 
     # reduce df
     rel_col = ['date', 'zon_stationaer', 'zon_mobile', 'zon_android', 'zon_ios']
