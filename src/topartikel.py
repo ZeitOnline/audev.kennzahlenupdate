@@ -377,13 +377,28 @@ def get_data_top_comments(date_from=api.get_datetime_yesterday(),
         }],
         "metrics": [
             {
-                "title": "Kommentar antworten",
-                "sortOrder": "desc"
-            }, {
-                "title": "Kommentar antworten",
+                "title": "Klicks",
+                "sortOrder": "desc",
                 "metricFilter": {
                     "filterRules": [
                         {
+                            "objectTitle": "ck9: Bezeichner (Aktion)",
+                            "comparator": "=",
+                            "filter": "kommentar_senden"
+                        }
+                    ]
+                }
+            }, {
+                "title": "Klicks",
+                "metricFilter": {
+                    "filterRules": [
+                        {
+                            "objectTitle": "ck9: Bezeichner (Aktion)",
+                            "comparator": "=",
+                            "filter": "kommentar_senden"
+                        },
+                        {
+                            "link": "and",
                             "objectTitle": "cp12 - Seitenversion Endgeraet",
                             "comparator": "=",
                             "filter": "mobile.*"
