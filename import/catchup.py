@@ -7,6 +7,9 @@ This module finds missing dates in bigquery and adds the missing data (if api di
 import os
 import sys
 import logging
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # add parent directory to sys.path in order to import modules
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
