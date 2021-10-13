@@ -304,7 +304,7 @@ def get_data_top_reg(date_from=api.get_datetime_yesterday(),
         "startTime": date_from,
         "stopTime": date_to,
         "analysisObjects": [{
-            "title": "Registrierung SSO",
+            "title": "cb7 - Registrierung SSO",
             "rowLimit": 5
         }],
         "metrics": [{

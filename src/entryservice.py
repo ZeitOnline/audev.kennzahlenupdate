@@ -27,7 +27,7 @@ def get_data_reg(date_from=api.get_datetime_yesterday(),
         "stopTime": date_to,
         "rowLimit": 10000,
         "analysisObjects": [{
-            "title": "Registrierung SSO – entry service"
+            "title": "cb9 - Registrierung SSO - entry service"
         }],
         "metrics": [{
             "title": "Anzahl Registrierung SSO"
@@ -77,7 +77,7 @@ def get_data_login(date_from=api.get_datetime_yesterday(),
         "stopTime": date_to,
         "rowLimit": 10000,
         "analysisObjects": [{
-            "title": "Login SSO - entry service"
+            "title": "cb13 - Login SSO - entry service"
         }],
         "metrics": [{
             "title": "Anzahl Login SSO"
