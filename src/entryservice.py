@@ -30,7 +30,7 @@ def get_data_reg(date_from=api.get_datetime_yesterday(),
             "title": "cb9 - Registrierung SSO - entry service"
         }],
         "metrics": [{
-            "title": "Anzahl cb7 -  Registrierung SSO"
+            "title": "Anzahl cb7 - Registrierung SSO"
         }, {
             "title": "Anzahl cb9 - Registrierung SSO – entry service"
         }]
