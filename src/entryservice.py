@@ -30,9 +30,9 @@ def get_data_reg(date_from=api.get_datetime_yesterday(),
             "title": "cb9 - Registrierung SSO - entry service"
         }],
         "metrics": [{
-            "title": "Anzahl Registrierung SSO"
+            "title": "Anzahl cb7 -  Registrierung SSO"
         }, {
-            "title": "Anzahl Registrierung SSO – entry service"
+            "title": "Anzahl cb9 - Registrierung SSO – entry service"
         }]
     }
 
@@ -80,9 +80,9 @@ def get_data_login(date_from=api.get_datetime_yesterday(),
             "title": "cb13 - Login SSO - entry service"
         }],
         "metrics": [{
-            "title": "Anzahl Login SSO"
+            "title": "Anzahl cb12 - Login SSO"
         }, {
-            "title": "Anzahl Login SSO - entry service"
+            "title": "Anzahl cb13 - Login SSO - entry service"
         }]
     }
 

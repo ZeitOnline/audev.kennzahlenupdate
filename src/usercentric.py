@@ -104,11 +104,11 @@ def get_data(date_from=api.get_datetime_yesterday(),
         }, {
             "title": "Anzahl Bestellungen Pur Kombi"
         }, {
-            "title": "Anzahl Registrierung SSO"
+            "title": "Anzahl cb7 - Registrierung SSO"
         }, {
             "title": "Anzahl Registrierungen Schranke"
         }, {
-            "title": "Anzahl Login SSO"
+            "title": "Anzahl cb12 - Login SSO"
         }, {
             "title": "Anzahl Digitalabonnenten"
         }, {
