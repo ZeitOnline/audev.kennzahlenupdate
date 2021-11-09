@@ -6,7 +6,7 @@ metadata:
 spec:
   # jobs will run according to kubernetes masters (UTC)
   # consider the time +2h
-  schedule: "15 4 * * *"
+  schedule: "45 4 * * *"
   jobTemplate:
     spec:
       activeDeadlineSeconds: 7200
