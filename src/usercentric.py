@@ -27,8 +27,7 @@ def get_data(date_from=api.get_datetime_yesterday(),
         "analysisObjects": [{
             "title": "Tage"
         }],
-        "metrics": [
-        {
+        "metrics": [{
             "title": "Visitors *"
         }, {
             "title": "Visitors - angemeldet"
@@ -81,6 +80,7 @@ def get_data(date_from=api.get_datetime_yesterday(),
         }, {
             "title": "Anzahl Bestellungen"
         }, {
+            # legacy & not to be used any more. replaced by chunk in config 2
             "title": "Anzahl Best. Z  Abo-Schranke nur Red. Marketing"
         }, {
             "title": "Anzahl Bestellungen Z  nur Footerbar"
@@ -96,8 +96,7 @@ def get_data(date_from=api.get_datetime_yesterday(),
         "analysisObjects": [{
             "title": "Tage"
         }],
-        "metrics": [
-        {
+        "metrics": [{
             "title": "Anzahl Bestellungen Pur Only"
         }, {
             "title": "Anzahl Bestellungen Pur Upgrade"
@@ -116,13 +115,25 @@ def get_data(date_from=api.get_datetime_yesterday(),
         }, {
             "title": "Browsers, Unique - Comments"
         }, {
-            "title": "Anzahl Best. Z  Abo-Schranke nur Red. Marketing 2"
+            "title": "Anzahl Best. Z  Abo-Schranke nur Red. Marketing 2"  # legacy & not to be used any more, see below
         }, {
             "title": "Anzahl Bestellungen Z  nur Footerbar 2"
         }, {
-            "title": "Anzahl Best. Z  Abo-Schranke nur Red. Marketing 3"
-        }
-        ]}
+            "title": "Anzahl Best. Z  Abo-Schranke nur Red. Marketing 3"  # legacy & not to be used any more, see below
+        }, {  # --- below replacement of Anzahl Best. Z  Abo-Schranke nur Red. Marketing 1, 2, & 3
+            "title": "Anzahl Best. Z  Abo-Schranke nur Redaktion"
+        }, {
+            "title": "Anzahl Best. Z  Abo-Schranke nur Redaktion 2"
+        }, {
+            "title": "Anzahl Best. Z  Abo-Schranke nur Marketing"
+        }, {
+            "title": "Anzahl Best. Z  Abo-Schranke nur Marketing 2"
+        }, {
+            "title": "Anzahl Best. Z  Abo-Schranke nur Marketing 3"
+        }, {
+            "title": "Anzahl Best. Z  Abo-Schranke nur Sonderlocken"
+        }]
+    }  # ---
 
     # request data
     data = api.wt_get_data(analysisConfig)
@@ -143,7 +154,9 @@ def get_data(date_from=api.get_datetime_yesterday(),
                  "best_zplus_gesamt", "best_pur_only", "best_pur_upgrade", "best_pur_kombi",
                  "reg_sso", "reg_schranke", "login_sso", "sum_abonnenten",
                  "abonnenten_paid_serv_ang", "b_unique_comments", "best_zplus_red_marketing_2",
-                 "best_zplus_footer_2", "best_zplus_red_marketing_3"]
+                 "best_zplus_footer_2", "best_zplus_red_marketing_3",
+                 "best_zplus_red", "best_zplus_red_2", "best_zplus_marketing", "best_zplus_marketing_2",
+                 "best_zplus_marketing_3", "best_zplus_sonderlocken"]
     df.columns = col_names
     df.date = pd.to_datetime(df.date, format="%d.%m.%Y")
 

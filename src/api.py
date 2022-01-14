@@ -67,7 +67,7 @@ def f3_body(aggr, horizon,
         date_to = "now/d-1d"
     else:
         date_from = datetime.strptime(date_from, "%Y-%m-%d").timestamp() * 1000
-        date_to = datetime.strptime(date_to, "%Y-%m-%d").replace(hour=23, minute=59).\
+        date_to = datetime.strptime(date_to, "%Y-%m-%d").replace(hour=23, minute=59). \
                       timestamp() * 1000
 
     # define body
@@ -236,7 +236,7 @@ def wt_call(body):
     # check if api call was successful
     # in case it was not try to call again 9 times then throw exception
     # use for loop instead of while loop to avoid infinite loop trying to call api
-    for i in range(0,10):
+    for i in range(0, 10):
         # make request
         data = requests.post(
             url='https://report2.webtrekk.de/cgi-bin/wt/JSONRPC.cgi',
@@ -280,5 +280,3 @@ def wt_get_data(analysisConfig=None):
     data = wt_call(body)
 
     return data
-
-

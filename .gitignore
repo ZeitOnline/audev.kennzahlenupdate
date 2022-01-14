@@ -5,3 +5,7 @@
 /config.json
 /audev-217815-kennzahlenupdate-owner.json
 /.env
+venv
+
+# JetBrains IDEs
+.idea/
