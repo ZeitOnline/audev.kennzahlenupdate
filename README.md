@@ -37,6 +37,7 @@ F3_CLIENT_ID=<vault: zon/v1/gcp/audev-217815/folge3/reshin/client_id>
 F3_CLIENT_SECRET=<vault: zon/v1/gcp/audev-217815/folge3/reshin/client_secret>
 
 GOOGLE_APPLICATION_CREDENTIALS=audev-217815-kennzahlenupdate-owner.json
+SLACK_WEBHOOK=<SLACK_WEBHOOK>
 ```
 
 ##### Usage

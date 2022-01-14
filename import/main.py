@@ -35,7 +35,7 @@ def run_ku():
         # only update rows, if upload of new data was successful
         if result:
             bigquery.update_data(df_updates, 'project_kennzahlenupdate.ivw_visits')
-    except Exception:
+    except Exception as e:
         error.send_error_slack(traceback.format_exc())
         logging.warning(traceback.format_exc())
 
