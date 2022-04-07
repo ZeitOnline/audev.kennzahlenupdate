@@ -132,6 +132,8 @@ def get_data(date_from=api.get_datetime_yesterday(),
             "title": "Anzahl Best. Z  Abo-Schranke nur Marketing 3"
         }, {
             "title": "Anzahl Best. Z  Abo-Schranke nur Sonderlocken"
+        }, {
+            "title": "Anzahl Best. Z  Abo-Schranke nur IAP"
         }]
     }  # ---
 
@@ -156,7 +158,7 @@ def get_data(date_from=api.get_datetime_yesterday(),
                  "abonnenten_paid_serv_ang", "b_unique_comments", "best_zplus_red_marketing_2",
                  "best_zplus_footer_2", "best_zplus_red_marketing_3",
                  "best_zplus_red", "best_zplus_red_2", "best_zplus_marketing", "best_zplus_marketing_2",
-                 "best_zplus_marketing_3", "best_zplus_sonderlocken"]
+                 "best_zplus_marketing_3", "best_zplus_sonderlocken", "best_zplus_iap"]
     df.columns = col_names
     df.date = pd.to_datetime(df.date, format="%d.%m.%Y")
 
