@@ -9,3 +9,6 @@ venv
 
 # JetBrains IDEs
 .idea/
+
+# VSCode IDEs
+.vscode/
