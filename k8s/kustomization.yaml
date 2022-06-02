@@ -6,5 +6,7 @@ kind: Kustomization
 images:
 - name: eu.gcr.io/zeitonline-210413/
   newTag: 55f443965b62636f6d9927aef7292ee33687b274
+- name: eu.gcr.io/zeitonline-210413/audev-kennzahlenupdate-forecast
+  newTag: 8b01718377acc4e6db96dc5dbfa992015ace05af
 - name: eu.gcr.io/zeitonline-210413/audev-kennzahlenupdate-import
-  newTag: 55f443965b62636f6d9927aef7292ee33687b274
+  newTag: 8b01718377acc4e6db96dc5dbfa992015ace05af
