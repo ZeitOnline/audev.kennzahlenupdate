@@ -78,7 +78,7 @@ jobs:
         context: .
         file: ${{ env.DOCKERLOCATION }}/Dockerfile
         push: true
-        tags: eu.gcr.io/zeitonline-210413//${{ env.IMAGE_FORECAST }}:${{ github.sha }}
+        tags: eu.gcr.io/zeitonline-210413/${{ env.IMAGE_FORECAST }}:${{ github.sha }}
 
   deploy:
     if: github.ref == 'refs/heads/main'
