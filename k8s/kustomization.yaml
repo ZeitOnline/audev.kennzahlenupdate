@@ -1,3 +1,10 @@
 resources:
-  - cronjob-import.yml
-  - cronjob-forecast.yml
+- cronjob-import.yml
+- cronjob-forecast.yml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+images:
+- name: eu.gcr.io/zeitonline-210413/
+  newTag: 55f443965b62636f6d9927aef7292ee33687b274
+- name: eu.gcr.io/zeitonline-210413/audev-kennzahlenupdate-import
+  newTag: 55f443965b62636f6d9927aef7292ee33687b274
