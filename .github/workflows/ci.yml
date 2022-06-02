@@ -7,7 +7,7 @@ on:
 env:
   REPOSITORY: zeitonline-210413
   ENVIRONMENT: production
-  PROJECT: audev-kennzahlenupdate-import
+  PROJECT: audev-kennzahlenupdate
 
 jobs:
   build_import:
