@@ -7,13 +7,13 @@ on:
 env:
   REPOSITORY: zeitonline-210413
   ENVIRONMENT: production
+  PROJECT: audev-kennzahlenupdate-import
 
 jobs:
   build_import:
     name: build import docker image & push to registry
     env: 
-      IMAGE: audev-kennzahlenupdate-import
-      PROJECT_IMPORT: audev-kennzahlenupdate-import
+      IMAGE_IMPORT: audev-kennzahlenupdate-import
       DOCKERLOCATION: import
     runs-on: [ self-hosted, linux ]
     permissions:
@@ -27,7 +27,7 @@ jobs:
       uses: ZeitOnline/gh-action-baseproject@v0
       id: baseproject
       with:
-        project_name: ${{ env.PROJECT_IMPORT }}
+        project_name: ${{ env.PROJECT }}
         environment: ${{ env.ENVIRONMENT }}
         gcr_auth: true
 
@@ -43,13 +43,12 @@ jobs:
         context: .
         file: ${{ env.DOCKERLOCATION }}/Dockerfile
         push: true
-        tags: ${{ secrets.GCR_IMAGE_REGISTRY }}/${{ env.PROJECT_IMPORT }}:${{ github.sha }}
+        tags: ${{ secrets.GCR_IMAGE_REGISTRY }}/${{ env.IMAGE_IMPORT }}:${{ github.sha }}
 
   build_forecast:
     name: build forecast docker image & push to registry
     env: 
-      IMAGE: audev-kennzahlenupdate-forecast
-      PROJECT_FORECAST: audev-kennzahlenupdate-forecast
+      IMAGE_FORECAST: audev-kennzahlenupdate-forecast
       DOCKERLOCATION: forecast
     runs-on: [ self-hosted, linux ]
     permissions:
@@ -63,7 +62,7 @@ jobs:
       uses: ZeitOnline/gh-action-baseproject@v0
       id: baseproject
       with:
-        project_name: ${{ env.PROJECT_FORECAST }}
+        project_name: ${{ env.PROJECT }}
         environment: ${{ env.ENVIRONMENT }}
         gcr_auth: true
 
@@ -79,7 +78,7 @@ jobs:
         context: .
         file: ${{ env.DOCKERLOCATION }}/Dockerfile
         push: true
-        tags: ${{ secrets.GCR_IMAGE_REGISTRY }}/${{ env.PROJECT_FORECAST }}:${{ github.sha }}
+        tags: ${{ secrets.GCR_IMAGE_REGISTRY }}/${{ env.IMAGE_FORECAST }}:${{ github.sha }}
 
   deploy:
     if: github.ref == 'refs/heads/main'
@@ -100,8 +99,8 @@ jobs:
     - name: Set new image
       run: |
         cd k8s/
-        kustomize edit set image "eu.gcr.io/$REPOSITORY/$PROJECT_IMPORT:$GITHUB_SHA"
-        kustomize edit set image "eu.gcr.io/$REPOSITORY/$PROJECT_FORECAST:$GITHUB_SHA"
+        kustomize edit set image "eu.gcr.io/$REPOSITORY/$IMAGE_IMPORT:$GITHUB_SHA"
+        kustomize edit set image "eu.gcr.io/$REPOSITORY/$IMAGE_FORECAST:$GITHUB_SHA"
     - name: Commit and push
       run: |
         git config --global user.name "GitHub Actions"
