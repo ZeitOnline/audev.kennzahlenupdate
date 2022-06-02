@@ -43,7 +43,7 @@ jobs:
         context: .
         file: ${{ env.DOCKERLOCATION }}/Dockerfile
         push: true
-        tags: ${{ secrets.GCR_IMAGE_REGISTRY }}/${{ env.IMAGE_IMPORT }}:${{ github.sha }}
+        tags: ${{ secrets.GCR_IMAGE_REGISTRY }}/${{ env.PROJECT }}:${{ github.sha }}
 
   build_forecast:
     name: build forecast docker image & push to registry
@@ -78,7 +78,7 @@ jobs:
         context: .
         file: ${{ env.DOCKERLOCATION }}/Dockerfile
         push: true
-        tags: ${{ secrets.GCR_IMAGE_REGISTRY }}/${{ env.IMAGE_FORECAST }}:${{ github.sha }}
+        tags: ${{ secrets.GCR_IMAGE_REGISTRY }}/${{ env.PROJECT }}:${{ github.sha }}
 
   deploy:
     if: github.ref == 'refs/heads/main'
