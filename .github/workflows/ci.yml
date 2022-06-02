@@ -9,6 +9,7 @@ env:
   ENVIRONMENT: production
   PROJECT: audev-kennzahlenupdate
   IMAGE_IMPORT: audev-kennzahlenupdate-import
+  IMAGE_FORECAST: audev-kennzahlenupdate-forecast
 
 jobs:
   build_import:
@@ -45,12 +46,45 @@ jobs:
         push: true
         tags: eu.gcr.io/zeitonline-210413/${{ env.IMAGE_IMPORT }}:${{ github.sha }}
 
+  build_forecast:
+    name: build forecast docker image & push to registry
+    env: 
+      DOCKERLOCATION: forecast
+    runs-on: [ self-hosted, linux ]
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Baseproject
+      uses: ZeitOnline/gh-action-baseproject@v0
+      id: baseproject
+      with:
+        project_name: ${{ env.PROJECT }}
+        environment: ${{ env.ENVIRONMENT }}
+        gcr_auth: true
+
+    - name: Install buildx
+      uses: docker/setup-buildx-action@v1
+      id: buildx
+      with:
+        driver: docker
+
+    - name: Build and push
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        file: ${{ env.DOCKERLOCATION }}/Dockerfile
+        push: true
+        tags: eu.gcr.io/zeitonline-210413//${{ env.IMAGE_FORECAST }}:${{ github.sha }}
 
   deploy:
     if: github.ref == 'refs/heads/main'
     name: deploy production
     runs-on: [self-hosted, linux]
-    needs: [ build_import ] #build_forecast
+    needs: [ build_import, build_forecast ] 
 
     permissions:
       contents: write
