@@ -85,7 +85,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     name: deploy production
     runs-on: [self-hosted, linux]
-    needs: build
+    needs: [ build_import, build_forecast ]
 
     permissions:
       contents: write
