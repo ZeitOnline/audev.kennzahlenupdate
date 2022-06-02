@@ -8,12 +8,12 @@ env:
   REPOSITORY: zeitonline-210413
   ENVIRONMENT: production
   PROJECT: audev-kennzahlenupdate
+  IMAGE_IMPORT: audev-kennzahlenupdate-import
 
 jobs:
   build_import:
     name: build import docker image & push to registry
     env: 
-      IMAGE_IMPORT: audev-kennzahlenupdate-import
       DOCKERLOCATION: import
     runs-on: [ self-hosted, linux ]
     permissions:
@@ -43,7 +43,7 @@ jobs:
         context: .
         file: ${{ env.DOCKERLOCATION }}/Dockerfile
         push: true
-        tags: ${{ secrets.GCR_IMAGE_REGISTRY }}/${{ env.PROJECT }}:${{ github.sha }}
+        tags: eu.gcr.io/zeitonline-210413/${{ env.IMAGE_IMPORT }}:${{ github.sha }}
 
 
   deploy:
