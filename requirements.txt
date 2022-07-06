@@ -34,7 +34,7 @@ isodate==0.6.0
 joblib==0.15.1
 jsonschema==3.2.0
 kiwisolver==1.2.0
-lxml==4.6.5
+lxml==4.9.1
 matplotlib==3.2.2
 msgpack==1.0.0
 multidict==5.0.0
