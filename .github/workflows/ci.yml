@@ -99,8 +99,8 @@ jobs:
     - name: Set new image
       run: |
         cd k8s/
-        kustomize edit set image "$secrets.GAR_DOCKER_REGISTRY/$IMAGE_IMPORT:$GITHUB_SHA"
-        kustomize edit set image "$secrets.GAR_DOCKER_REGISTRY/$IMAGE_FORECAST:$GITHUB_SHA"
+        kustomize edit set image ${{ secrets.GAR_DOCKER_REGISTRY }}/${{ env.IMAGE_IMPORT }}:${{ github.sha }}
+        kustomize edit set image ${{ secrets.GAR_DOCKER_REGISTRY }}/${{ env.IMAGE_FORECAST }}:${{ github.sha }}
     - name: Commit and push
       run: |
         git config --global user.name "GitHub Actions"
