@@ -4,6 +4,10 @@ resources:
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
+- name: /kennzahlenupdate-forecast
+  newTag: 7dc2e43cc66615061ddbfdb48184e404df18089f
+- name: /kennzahlenupdate-import
+  newTag: 7dc2e43cc66615061ddbfdb48184e404df18089f
 - name: europe-west3-docker.pkg.dev/zeitonline-engineering/docker-zon/
   newTag: 55f443965b62636f6d9927aef7292ee33687b274
 - name: europe-west3-docker.pkg.dev/zeitonline-engineering/docker-zon/kennzahlenupdate-forecast
