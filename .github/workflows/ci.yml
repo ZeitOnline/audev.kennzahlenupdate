@@ -7,9 +7,9 @@ on:
 env:
   REPOSITORY: zeitonline-210413
   ENVIRONMENT: production
-  PROJECT: audev-kennzahlenupdate
-  IMAGE_IMPORT: audev-kennzahlenupdate-import
-  IMAGE_FORECAST: audev-kennzahlenupdate-forecast
+  PROJECT: kennzahlenupdate
+  IMAGE_IMPORT: kennzahlenupdate-import
+  IMAGE_FORECAST: kennzahlenupdate-forecast
 
 jobs:
   build_import:

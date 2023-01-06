@@ -4,9 +4,9 @@ resources:
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
-- name: eu.gcr.io/zeitonline-210413/
+- name: europe-west3-docker.pkg.dev/zeitonline-engineering/docker-zon/
   newTag: 55f443965b62636f6d9927aef7292ee33687b274
-- name: eu.gcr.io/zeitonline-210413/audev-kennzahlenupdate-forecast
+- name: europe-west3-docker.pkg.dev/zeitonline-engineering/docker-zon/kennzahlenupdate-forecast
   newTag: 8b01718377acc4e6db96dc5dbfa992015ace05af
-- name: eu.gcr.io/zeitonline-210413/audev-kennzahlenupdate-import
+- name: europe-west3-docker.pkg.dev/zeitonline-engineering/docker-zon/kennzahlenupdate-import
   newTag: 8b01718377acc4e6db96dc5dbfa992015ace05af
