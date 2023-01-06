@@ -4,6 +4,10 @@ resources:
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
+- name: .GAR_DOCKER_REGISTRY/kennzahlenupdate-forecast
+  newTag: e9d1a6a036f9d3512018ae038779c237b4956c24
+- name: .GAR_DOCKER_REGISTRY/kennzahlenupdate-import
+  newTag: e9d1a6a036f9d3512018ae038779c237b4956c24
 - name: /kennzahlenupdate-forecast
   newTag: 7dc2e43cc66615061ddbfdb48184e404df18089f
 - name: /kennzahlenupdate-import
