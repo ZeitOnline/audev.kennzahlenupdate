@@ -44,7 +44,7 @@ jobs:
         context: .
         file: ${{ env.DOCKERLOCATION }}/Dockerfile
         push: true
-        tags: ${{ secrets.GAR_DOCKER_REGISTRY }}/${{ env.IMAGE_IMPORT }}:${{ github.sha }}
+        tags: ${{  }}/${{ env.IMAGE_IMPORT }}:${{ github.sha }}
 
   build_forecast:
     name: build forecast docker image & push to registry
@@ -78,7 +78,7 @@ jobs:
         context: .
         file: ${{ env.DOCKERLOCATION }}/Dockerfile
         push: true
-        tags: ${{ secrets.GAR_DOCKER_REGISTRY }}/${{ env.IMAGE_FORECAST }}:${{ github.sha }}
+        tags: ${{ vars.GAR_DOCKER_REGISTRY }}/${{ env.IMAGE_FORECAST }}:${{ github.sha }}
 
   deploy:
     if: github.ref == 'refs/heads/main'
@@ -99,8 +99,8 @@ jobs:
     - name: Set new image
       run: |
         cd k8s/
-        kustomize edit set image ${{ secrets.GAR_DOCKER_REGISTRY }}/${{ env.IMAGE_IMPORT }}:${{ github.sha }}
-        kustomize edit set image ${{ secrets.GAR_DOCKER_REGISTRY }}/${{ env.IMAGE_FORECAST }}:${{ github.sha }}
+        kustomize edit set image ${{ vars.GAR_DOCKER_REGISTRY }}/${{ env.IMAGE_IMPORT }}:${{ github.sha }}
+        kustomize edit set image ${{ vars.GAR_DOCKER_REGISTRY }}/${{ env.IMAGE_FORECAST }}:${{ github.sha }}
     - name: Commit and push
       run: |
         git config --global user.name "GitHub Actions"
