@@ -16,7 +16,7 @@ jobs:
     name: build import docker image & push to registry
     env: 
       DOCKERLOCATION: import
-    runs-on: [ self-hosted, linux ]
+    runs-on: [self-hosted, x64, linux, ephemeral, zon-image-latest]
     permissions:
       id-token: write
       contents: read
@@ -50,7 +50,7 @@ jobs:
     name: build forecast docker image & push to registry
     env: 
       DOCKERLOCATION: forecast
-    runs-on: [ self-hosted, linux ]
+    runs-on: [self-hosted, x64, linux, ephemeral, zon-image-latest]
     permissions:
       id-token: write
       contents: read
@@ -83,7 +83,7 @@ jobs:
   deploy:
     if: github.ref == 'refs/heads/main'
     name: deploy production
-    runs-on: [self-hosted, linux]
+    runs-on: [self-hosted, x64, linux, ephemeral, zon-image-latest]
     needs: [ build_import, build_forecast ] 
 
     permissions:
